@@ -1,0 +1,82 @@
+.cabecera{
+    background-color: blue;
+    color: white;
+}
+
+.titulo {
+    text-align: center;
+    font-size: 1em;
+    background: #000054;
+    color: #fff;
+    border: 1px solid #000;
+    width: 100%;
+    text-shadow: 1px 1px 1px #000;
+}
+
+.par {
+    background-color: white;
+    color: black;
+}
+
+.impar {
+    background-color: gray;
+    color: black;
+}
+
+table {
+    display: table;
+    border-collapse: separate;
+    box-sizing: border-box;
+    text-indent: initial;
+    border-spacing: 2px;
+    border-color: grey;
+}
+
+#posiciones {
+    font-size: .9em;
+    width: 380px;
+    text-align: center;
+}
+
+thead {
+    display: table-header-group;
+    vertical-align: middle;
+    border-color: inherit;
+}
+
+tr {
+    display: table-row;
+    vertical-align: inherit;
+    border-color: inherit;
+}
+
+h1 {
+    text-align: center;
+}
+
+h2 {
+    text-align: center;
+}
+
+.rect-campeonato {
+    width: 400px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #888888;
+    border: #000 solid 1px
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+footer p {
+    text-align: center; 
+    font-size: 10px;
+}
