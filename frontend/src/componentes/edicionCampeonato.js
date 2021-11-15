@@ -1,34 +1,27 @@
 import React, {useState, useEffect} from "react"
 import { Switch, Route, Link } from "react-router-dom";
 
-class edicionCampeonato extends React.Component {
-    constructor(props){
-        super(props)
-        this.state = {
-            campeonato: props.campeonato
-        }
-    }
+function EdicionCampeonato(campeonato){
+    let estado = campeonato.estado
 
-    cambiarEstado() {
+    function cambiarEstado() {
         fetch("http://localhost:8080/updateCampeonato",{method:"PUT", body: JSON.stringify(campeonato)}).then(
-            response => {response.ok ? (campeonato.estado == "activo" ? (campeonato.estado = "inactivo") : campeonato.estado = "activo"):(console.log("holis"))}
-        )
+            response => {campeonato.estado == "activo" ? (estado= "inactivo") : (estado= "activo")}
+        ).catch(e => {console.log(e)})
+        console.log(estado)
     }
 
+    return( 
+        <div>
+            <h1>
+                {campeonato.nombre}
+                {estado}      <button onClick={cambiarEstado}>{estado}</button>
+            </h1>
+        </div>
+    )
+    
 
-   render(){
-       return( 
-            <div>
-                <h1>
-                    {this.nombre}
-                    {this.campState}      <button onClick={this.cambiarEstado()}>{campeonato.estado}</button>
-                </h1>
-            </div>
-       )
-   }
-
-   //Si no anda, componentDidUpdate
 
 }
 
-export default edicionCampeonato;
+export default EdicionCampeonato;

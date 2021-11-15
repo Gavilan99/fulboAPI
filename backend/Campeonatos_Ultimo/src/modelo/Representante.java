@@ -1,6 +1,5 @@
 package modelo;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -8,6 +7,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import daos.RepresentanteDAO;
+import view.RepresentanteView;
 
 @Entity
 @Table (name = "representantes")
@@ -45,15 +47,28 @@ public class Representante implements Comparable<Representante>{
 	}
 	
 	public void setDocumento(String documento) {
-		this.documento = documento;
+		if (documento != "") {
+			this.documento = documento;
+			this.actualizar();
+		}
 	}
 	
 	public void setNombre(String nombre) {
-		this.nombre = nombre;
+		if (nombre != "") {
+			this.nombre = nombre;
+			this.actualizar();
+		}
 	}
 
 	public void setClub(Club club) {
 		this.club = club;
+		this.actualizar();
+	}
+	
+	public RepresentanteView toView() {
+		RepresentanteView rv = new RepresentanteView(documento, nombre, club.toView());
+		rv.setLegajo(idRepresentante);
+		return rv;
 	}
 
 	@Override
@@ -63,5 +78,9 @@ public class Representante implements Comparable<Representante>{
 
 	public Integer getLegajo() {
 		return idRepresentante;
+	}
+	
+	private void actualizar() {
+		RepresentanteDAO.getInstancia().actualizar(this);
 	}
 }

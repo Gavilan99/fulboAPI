@@ -20,6 +20,7 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
+import daos.PartidoDAO;
 import view.PartidoView;
 
 @Entity
@@ -63,8 +64,8 @@ public class Partido {
 		this.categoria = categoria;
 		this.clubLocal = clubLocal;
 		this.clubVisitante = clubVisitante;
-		this.golesLocal = null;
-		this.golesVisitante = null;
+		this.golesLocal = 0;
+		this.golesVisitante = 0;
 		this.fechaPartido = fechaPartido;
 		this.convalidaLocal = 'N';
 		this.convalidaVisitante = 'N';
@@ -73,6 +74,40 @@ public class Partido {
 		jugadoresVisitantes = new ArrayList<Miembro>();
 	}
 	
+	public Partido(int nroFecha, int categoria, Club clubLocal, Club clubVisitante, 
+		       Date fechaPartido, Campeonato campeonato) {
+	this.nroFecha = nroFecha;
+	this.nroZona = null;
+	this.categoria = categoria;
+	this.clubLocal = clubLocal;
+	this.clubVisitante = clubVisitante;
+	this.golesLocal = 0;
+	this.golesVisitante = 0;
+	this.fechaPartido = fechaPartido;
+	this.convalidaLocal = 'N';
+	this.convalidaVisitante = 'N';
+	this.campeonato = campeonato;
+	jugadoresLocales = new ArrayList<Miembro>();
+	jugadoresVisitantes = new ArrayList<Miembro>();
+}
+	
+	public Partido(int categoria, Club clubLocal, Club clubVisitante, 
+		       Date fechaPartido, Campeonato campeonato) {
+	this.nroFecha = null;
+	this.nroZona = null;
+	this.categoria = categoria;
+	this.clubLocal = clubLocal;
+	this.clubVisitante = clubVisitante;
+	this.golesLocal = 0;
+	this.golesVisitante = 0;
+	this.fechaPartido = fechaPartido;
+	this.convalidaLocal = 'N';
+	this.convalidaVisitante = 'N';
+	this.campeonato = campeonato;
+	jugadoresLocales = new ArrayList<Miembro>();
+	jugadoresVisitantes = new ArrayList<Miembro>();
+}
+	
 	public Partido() {}
 
 	public Integer getIdPartido() {
@@ -80,11 +115,21 @@ public class Partido {
 	}
 
 	public int getNroFecha() {
-		return nroFecha;
+		try {
+			return nroFecha;
+		}
+		catch (Exception e) {
+			return -1;
+		}
 	}
 
 	public int getNroZona() {
-		return nroZona;
+		try {
+			return nroZona;
+		}
+		catch (Exception e) {
+			return 0;
+		}
 	}
 
 	public int getCategoria() {
@@ -133,52 +178,72 @@ public class Partido {
 
 	public void setNroFecha(int nroFecha) {
 		this.nroFecha = nroFecha;
+		this.actualizar();
 	}
 
 	public void setNroZona(int nroZona) {
 		this.nroZona = nroZona;
+		this.actualizar();
 	}
 
 	public void setCategoria(int categoria) {
 		this.categoria = categoria;
+		this.actualizar();
 	}
 
 	public void setClubLocal(Club clubLocal) {
 		this.clubLocal = clubLocal;
+		this.actualizar();
 	}
 
 	public void setClubVisitante(Club clubVisitante) {
 		this.clubVisitante = clubVisitante;
+		this.actualizar();
 	}
 
 	public void setFechaPartido(Date fechaPartido) {
 		this.fechaPartido = fechaPartido;
+		this.actualizar();
 	}
 
 	public void setConvalidaLocal(char local) {
 		this.convalidaLocal = local;
+		this.actualizar();
 	}
 
 	public void setConvalidaVisitante(char visitante) {
 		this.convalidaVisitante = visitante;
+		this.actualizar();
+	}
+	
+	public void setJugadoresLocales(List<Miembro> jugadores) {
+		this.jugadoresLocales = jugadores;
+		this.actualizar();
+	}
+	
+	public void setJugadoresVisitantes(List<Miembro> jugadores) {
+		this.jugadoresVisitantes = jugadores;
+		this.actualizar();
 	}
 	
 	public void incrementarGolLocal() {
-		if (this.golesLocal == null) {
-			this.golesLocal = 1;
-		}
-		else {
+		try {
 			this.golesLocal++;
 		}
+		catch (NullPointerException e) {
+			this.golesLocal = 1;
+		}
+		this.actualizar();
 	}
 	
 	public void incrementarGolVisitante() {
-		if (this.golesVisitante == null) {
-			this.golesVisitante = 1;
-		}
-		else {
+		try {
 			this.golesVisitante++;
 		}
+		catch (NullPointerException e) {
+			this.golesVisitante = 1;
+		}
+		this.actualizar();
 	}
 
 	public void agregarJugadoresLocales(Miembro miembro) {
@@ -190,7 +255,17 @@ public class Partido {
 	}
 	
 	public PartidoView toView() {
-		return new PartidoView(idPartido, nroFecha, nroZona, categoria, golesLocal, golesVisitante, fechaPartido, convalidaLocal, convalidaVisitante);
+		PartidoView pv = new PartidoView(nroFecha, nroZona, categoria, golesLocal, golesVisitante, fechaPartido, convalidaLocal, convalidaVisitante);
+		pv.setIdPartido(idPartido);
+		return pv;
+	}
+	
+	public void grabar() {
+		PartidoDAO.getInstancia().grabar(this);
+	}
+	
+	private void actualizar() {
+		PartidoDAO.getInstancia().actualizar(this);
 	}
 	
 }

@@ -8,7 +8,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import daos.FaltaDAO;
 import view.FaltaView;
+import view.JugadorView;
 
 @Entity
 @Table (name = "faltas")
@@ -36,6 +38,7 @@ public class Falta {
 		this.campeonato = campeonato;
 		this.minuto = minuto;
 		this.tipo = tipo;
+		FaltaDAO.getInstancia().grabar(this);
 	}
 	
 	public Falta() {}
@@ -62,6 +65,7 @@ public class Falta {
 
 	public void setIdFalta(Integer idFalta) {
 		this.idFalta = idFalta;
+		this.actualizar();
 	}
 
 	public Campeonato getCampeonato() {
@@ -70,10 +74,22 @@ public class Falta {
 
 	public void setCampeonato(Campeonato campeonato) {
 		this.campeonato = campeonato;
+		this.actualizar();
 	}
 	
 	public FaltaView toView() {
-		return new FaltaView(idFalta, jugador.toView(), partido.toView(), campeonato.toView(), minuto, tipo);
+		FaltaView fv = new FaltaView(jugador.toString(), Integer.toString(partido.getIdPartido()), campeonato.toString(), minuto, tipo);
+		fv.setIdFalta(idFalta);
+		return fv;
 	}
 	
+	public FaltaView toViewJugador(JugadorView jv) {
+		FaltaView fv = new FaltaView(jv.toString(), Integer.toString(partido.getIdPartido()), campeonato.toString(), minuto, tipo);
+		fv.setIdFalta(idFalta);
+		return fv;
+	}
+	
+	private void actualizar() {
+		FaltaDAO.getInstancia().actualizar(this);
+	}
 }

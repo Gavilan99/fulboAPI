@@ -1,10 +1,15 @@
 package view;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class JugadorView {
+public class JugadorView implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8457820421837907293L;
 	private Integer idJugador;
 	private String tipoDocumento;
 	private Integer numeroDocumento;
@@ -21,11 +26,7 @@ public class JugadorView {
 	private List<FaltaView> faltas;
 	
 	
-	
-	public JugadorView(Integer idJugador, String tipoDocumento, Integer numeroDocumento, String nombre, String apellido,
-			ClubView club, Date fechaNacimiento, Integer categoria, String habilitado, String direccion, String mail,
-			String telefono, List<GolView> goles, List<FaltaView> faltas) {
-		this.idJugador = idJugador;
+	public JugadorView(String tipoDocumento, Integer numeroDocumento, String nombre, String apellido, ClubView club, Date fechaNacimiento, Integer categoria, String habilitado, String direccion, String mail, String telefono) {
 		this.tipoDocumento = tipoDocumento;
 		this.numeroDocumento = numeroDocumento;
 		this.nombre = nombre;
@@ -37,9 +38,10 @@ public class JugadorView {
 		this.direccion = direccion;
 		this.mail = mail;
 		this.telefono = telefono;
-		this.goles = goles;
-		this.faltas = faltas;
 	}
+	
+	public JugadorView() {}
+	
 	public ClubView getClub() {
 		return club;
 	}
@@ -118,13 +120,15 @@ public class JugadorView {
 		return nombre;
 	}
 	public void setNombre(String nombre) {
-		this.nombre = nombre;
+		if (!nombre.equals(null) || nombre != "")
+			this.nombre = nombre;
 	}
 	public String getApellido() {
 		return apellido;
 	}
 	public void setApellido(String apellido) {
-		this.apellido = apellido;
+		if (!apellido.equals(null) || apellido != "")
+			this.apellido = apellido;
 	}
 	
 	@Override

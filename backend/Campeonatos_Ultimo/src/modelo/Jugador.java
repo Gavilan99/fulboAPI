@@ -3,7 +3,6 @@ package modelo;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -22,7 +21,7 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
-import view.ClubView;
+import daos.JugadorDAO;
 import view.FaltaView;
 import view.GolView;
 import view.JugadorView;
@@ -68,15 +67,13 @@ public class Jugador implements Comparable<Jugador>{
 		this.direccion = direccion;
 		this.mail = mail;
 		this.telefono = telefono;
-		this.setHabilitado("habilitado");
+		this.habilitado = "habilitado";
 		SimpleDateFormat getYearFormat = new SimpleDateFormat("yyyy");
 		int auxCategoria = Integer.parseInt(getYearFormat.format(this.fechaNacimiento)) + 1900;
-        if(auxCategoria > 1999)
-        	this.categoria = auxCategoria - 1900;
-        else
-        	this.categoria = auxCategoria - 2000;
+        this.categoria = auxCategoria % 100;
         this.goles = new ArrayList<Gol>();
         this.faltas = new ArrayList<Falta>();
+        JugadorDAO.getInstancia().grabar(this);
 	}
 	
 	public Jugador() {}
@@ -91,9 +88,13 @@ public class Jugador implements Comparable<Jugador>{
 	}
 	
 	public void setNombre(String nombre) {
-		String[] nom = nombre.split(" ");
-		this.nombre = nom[0];
-		this.apellido = nom[1];
+		if (!nombre.equals(" ")) {
+			String[] nom = nombre.split(" ");
+			this.nombre = nom[0];
+			this.apellido = nom[1];
+			this.actualizar();
+		}
+		
 	}
 
 	public Date getFechaNacimiento() {
@@ -105,9 +106,12 @@ public class Jugador implements Comparable<Jugador>{
 	}
 	
 	public void setDocumento(String documento) {
-		String[] doc = documento.split(" ");
-		this.tipoDocumento = doc[0];
-		this.numeroDocumento = Integer.parseInt(doc[1]);
+		if (documento != " ") {
+			String[] doc = documento.split(" ");
+			this.tipoDocumento = doc[0];
+			this.numeroDocumento = Integer.parseInt(doc[1]);
+			this.actualizar();
+		}
 	}
 
 	public String getHabilitado() {
@@ -116,6 +120,7 @@ public class Jugador implements Comparable<Jugador>{
 
 	public void setHabilitado(String habilitado) {
 		this.habilitado = habilitado;
+		this.actualizar();
 	}
 
 	public String getDireccion() {
@@ -123,7 +128,10 @@ public class Jugador implements Comparable<Jugador>{
 	}
 
 	public void setDireccion(String direccion) {
-		this.direccion = direccion;
+		if (direccion != "") {
+			this.direccion = direccion;
+			this.actualizar();
+		}
 	}
 
 	public String getMail() {
@@ -131,7 +139,10 @@ public class Jugador implements Comparable<Jugador>{
 	}
 
 	public void setMail(String mail) {
-		this.mail = mail;
+		if (mail != "") {
+			this.mail = mail;
+			this.actualizar();
+		}
 	}
 
 	public String getTelefono() {
@@ -139,7 +150,10 @@ public class Jugador implements Comparable<Jugador>{
 	}
 
 	public void setTelefono(String telefono) {
-		this.telefono = telefono;
+		if (telefono != "") {
+			this.telefono = telefono;
+			this.actualizar();
+		}
 	}
 
 	public int getCategoria() {
@@ -169,6 +183,7 @@ public class Jugador implements Comparable<Jugador>{
 
 	public void setClub(Club club) {
 		this.club = club;
+		this.actualizar();
 	}
 	
 	
@@ -185,15 +200,27 @@ public class Jugador implements Comparable<Jugador>{
 	}
 	
 	public JugadorView toView() {
+		JugadorView jv = new JugadorView(tipoDocumento, numeroDocumento, nombre, apellido, club.toView(), fechaNacimiento, categoria, habilitado, direccion, mail, telefono);
+		jv.setIdJugador(idJugador);
 		List<GolView> golesView = new ArrayList<GolView>();
 		List<FaltaView> faltasView = new ArrayList<FaltaView>();
 		for (Gol g: goles) {
-			golesView.add(g.toView());
+			golesView.add(g.toViewJugador(jv));
 		}
 		for (Falta f: faltas) {
-			faltasView.add(f.toView());
+			faltasView.add(f.toViewJugador(jv));
 		}
-		return new JugadorView(idJugador, tipoDocumento, numeroDocumento, nombre, apellido, club.toView(), fechaNacimiento, categoria, habilitado, direccion, mail, telefono, golesView, faltasView);
+		jv.setGoles(golesView);
+		jv.setFaltas(faltasView);
+		return jv;
+	}
+	
+	private void actualizar() {
+		JugadorDAO.getInstancia().actualizar(this);
+	}
+	
+	public void eliminar() {
+		JugadorDAO.getInstancia().eliminar(this);
 	}
 	
 }

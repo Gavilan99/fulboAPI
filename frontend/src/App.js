@@ -4,6 +4,7 @@ import "./estilos/estiloPagina.css";
 import Campeonato from "./componentes/campeonato";
 import Home from "./componentes/home.js"
 
+
 const App = props => {
 
   const initialUserState = {

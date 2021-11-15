@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.hibernate.Session;
 
+import exceptions.ClubException;
 import exceptions.JugadorException;
 import hibernate.HibernateUtil;
 import modelo.Campeonato;

@@ -1,7 +1,13 @@
 package view;
 
-public class ClubView {
+import java.io.Serializable;
 
+public class ClubView implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5691014932816081788L;
 	private Integer idClub;
 	private String nombre;
 	private String direccion;
@@ -11,6 +17,8 @@ public class ClubView {
 		this.nombre = nombre;
 		this.direccion = direccion;
 	}
+	
+	public ClubView() {}
 	
 	public Integer getIdClub() {
 		return idClub;

@@ -1,22 +1,27 @@
 package view;
 
+import java.io.Serializable;
 
-public class GolView {
+public class GolView implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1209130228295967496L;
 	private Integer idGol;
-	private JugadorView jugador;
-	private PartidoView partido;
+	private String jugador;
+	private String partido;
 	private Integer minuto;
 	private String sentido;
 	
-	public GolView(Integer idGol, JugadorView jugador, PartidoView partido, Integer minuto, String sentido) {
-		super();
-		this.idGol = idGol;
+	public GolView(String jugador, String partido, Integer minuto, String sentido) {
 		this.jugador = jugador;
 		this.partido = partido;
 		this.minuto = minuto;
 		this.sentido = sentido;
 	}
+	
+	public GolView() {}
 	
 	public Integer getIdGol() {
 		return idGol;
@@ -24,16 +29,16 @@ public class GolView {
 	public void setIdGol(Integer idGol) {
 		this.idGol = idGol;
 	}
-	public JugadorView getJugador() {
+	public String getJugador() {
 		return jugador;
 	}
-	public void setJugador(JugadorView jugador) {
+	public void setJugador(String jugador) {
 		this.jugador = jugador;
 	}
-	public PartidoView getPartido() {
+	public String getPartido() {
 		return partido;
 	}
-	public void setPartido(PartidoView partido) {
+	public void setPartido(String partido) {
 		this.partido = partido;
 	}
 	public Integer getMinuto() {
@@ -51,7 +56,7 @@ public class GolView {
 
 	@Override
 	public String toString() {
-		return "GolView [idGol=" + idGol + "Jugador=" + jugador.getApellido() + ", minuto=" + minuto
+		return "GolView [idGol=" + idGol + "Jugador=" + jugador + ", minuto=" + minuto
 				+ ", sentido=" + sentido + "]";
 	}
 	

@@ -1,25 +1,30 @@
 package view;
 
-public class FaltaView {
+import java.io.Serializable;
 
+public class FaltaView implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7090275411522154873L;
 	private Integer idFalta;
-	private JugadorView jugador;
-	private PartidoView partido;
-	private CampeonatoView campeonato;
+	private String jugador;
+	private String partido;
+	private String campeonato;
 	private Integer minuto;
 	private String tipo;
 	
 	
-	public FaltaView(Integer idFalta, JugadorView jugador, PartidoView partido, CampeonatoView campeonato,
-			Integer minuto, String tipo) {
-		super();
-		this.idFalta = idFalta;
+	public FaltaView(String jugador, String partido, String campeonato, Integer minuto, String tipo) {
 		this.jugador = jugador;
 		this.partido = partido;
 		this.campeonato = campeonato;
 		this.minuto = minuto;
 		this.tipo = tipo;
 	}
+	
+	public FaltaView() {}
 
 
 	public Integer getIdFalta() {
@@ -32,32 +37,32 @@ public class FaltaView {
 	}
 
 
-	public JugadorView getJugador() {
+	public String getJugador() {
 		return jugador;
 	}
 
 
-	public void setJugador(JugadorView jugador) {
+	public void setJugador(String jugador) {
 		this.jugador = jugador;
 	}
 
 
-	public PartidoView getPartido() {
+	public String getPartido() {
 		return partido;
 	}
 
 
-	public void setPartido(PartidoView partido) {
+	public void setPartido(String partido) {
 		this.partido = partido;
 	}
 
 
-	public CampeonatoView getCampeonato() {
+	public String getCampeonato() {
 		return campeonato;
 	}
 
 
-	public void setCampeonato(CampeonatoView campeonato) {
+	public void setCampeonato(String campeonato) {
 		this.campeonato = campeonato;
 	}
 
@@ -84,7 +89,7 @@ public class FaltaView {
 
 	@Override
 	public String toString() {
-		return "FaltaView [idFalta=" + idFalta + ", Jugador=" + jugador.getApellido() + ", minuto=" + minuto + ", tipo=" + tipo + "]";
+		return "FaltaView [idFalta=" + idFalta + ", Jugador=" + jugador + ", minuto=" + minuto + ", tipo=" + tipo + "]";
 	}
 	
 	

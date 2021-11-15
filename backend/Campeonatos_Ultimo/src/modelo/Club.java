@@ -15,6 +15,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
+import daos.ClubDAO;
 import view.ClubView;
 
 import javax.persistence.JoinColumn;
@@ -86,6 +87,7 @@ public class Club implements Comparable<Club>{
 	
 	public void setDireccion(String direccion) {
 		this.direccion = direccion;
+		this.actualizar();
 	}
 
 	@Override
@@ -98,6 +100,7 @@ public class Club implements Comparable<Club>{
 	}
 	public void participar(Campeonato campeonato) {
 		participaciones.add(campeonato);
+		this.actualizar();
 	}
 	
 	public void noParticipar(Campeonato campeonato) {
@@ -123,5 +126,10 @@ public class Club implements Comparable<Club>{
 
 	public void setParticipaciones(List<Campeonato> participaciones) {
 		this.participaciones = participaciones;
+		this.actualizar();
+	}
+	
+	private void actualizar() {
+		ClubDAO.getInstancia().actualizar(this);
 	}
 }

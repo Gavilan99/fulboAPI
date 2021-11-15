@@ -1,18 +1,21 @@
 package view;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class PartidoView {
+public class PartidoView implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8841178654941187279L;
 	private Integer idPartido;
 	private Integer nroFecha;
 	private Integer nroZona;
 	private Integer categoria;
 	
 	
-	public PartidoView(Integer idPartido, Integer nroFecha, Integer nroZona, Integer categoria, Integer golesLocal,
-			Integer golesVisitante, Date fechaPartido, char convalidaLocal, char convalidaVisitante) {
-		this.idPartido = idPartido;
+	public PartidoView(Integer nroFecha, Integer nroZona, Integer categoria, Integer golesLocal, Integer golesVisitante, Date fechaPartido, char convalidaLocal, char convalidaVisitante) {
 		this.nroFecha = nroFecha;
 		this.nroZona = nroZona;
 		this.categoria = categoria;
@@ -22,6 +25,9 @@ public class PartidoView {
 		this.convalidaLocal = convalidaLocal;
 		this.convalidaVisitante = convalidaVisitante;
 	}
+	
+	public PartidoView() {}
+	
 	@Override
 	public String toString() {
 		return "PartidoView [idPartido=" + idPartido + ", nroFecha=" + nroFecha + ", nroZona=" + nroZona

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { Switch, Route, Link, Router } from "react-router-dom";
 import "../estilos/estiloPagina.css";
 import tabla from "./tabla";
+import EdicionCampeonato from "./EdicionCampeonato";
 
 class Campeonato extends React.Component {
   constructor(props) {
@@ -58,6 +60,13 @@ class Campeonato extends React.Component {
       });
   }
 
+  cambiarEstado() {
+    console.log(this.state)
+    fetch("http://localhost:8080/updateCampeonato",{method:"PUT", body: JSON.stringify(this.state.campeonato)}).then(
+        response => {this.state.campeonato.estado == "activo" ? (this.setState({campeonato:{estado: "inactivo"}})) : (this.setState({campeonato:{estado: "activo"}}))}
+    ).catch(e => {console.log(e)})
+  }
+
   render() {
     if (this.state.cargando) {
       return (
@@ -67,8 +76,9 @@ class Campeonato extends React.Component {
       );
     } else if (this.state.campeonato.tieneZonas === "n") {
       return (
-        <div>
+        <div class="datosCampeonato">
           <div class="titulo">{this.state.campeonato.descripcion}</div>
+          <div class="estado">{this.state.campeonato.estado} <button onClick={() => {this.cambiarEstado()}}>Editar Campeonato</button></div> 
           <div id="tablaseccion">
             {tabla(this.state.campeonato, this.state.tabla, 0)}
           </div>
@@ -76,8 +86,13 @@ class Campeonato extends React.Component {
       );
     } else {
       return (
-        <div>
+        <div class="datosCampeonato">
           <div class="titulo">{this.state.campeonato.descripcion}</div>
+          <div>
+              <button onClick={() => {EdicionCampeonato(this.state.campeonato)}} class="botonEditar">
+                Editar campeonato
+                </button>
+          </div>
           <div id="tablaseccion">
             {this.state.tabla.map((zona, index) =>
               tabla(this.state.campeonato, zona, index + 1)

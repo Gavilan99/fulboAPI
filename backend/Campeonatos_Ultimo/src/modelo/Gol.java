@@ -8,7 +8,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import daos.GolDAO;
 import view.GolView;
+import view.JugadorView;
 
 @Entity
 @Table(name = "goles")
@@ -26,11 +28,12 @@ public class Gol {
 	private String sentido;
 		
 	public Gol(Jugador jugador, Partido partido, int minuto, String sentido) {
-		this.setIdGol(null);
+		this.idGol = null;
 		this.jugador = jugador;
 		this.partido = partido;
 		this.minuto = minuto;
 		this.sentido = sentido;
+		GolDAO.getInstancia().grabar(this);
 	}
 	
 	public Gol() {}
@@ -54,9 +57,22 @@ public class Gol {
 
 	public void setIdGol(Integer idGol) {
 		this.idGol = idGol;
+		this.actualizar();
 	}
 
 	public GolView toView() {
-		return new GolView(idGol, jugador.toView(), partido.toView(), minuto, sentido);
+		GolView gv = new GolView(jugador.toString(), Integer.toString(partido.getIdPartido()) , minuto, sentido);
+		gv.setIdGol(idGol);
+		return gv;
+	}
+	
+	public GolView toViewJugador(JugadorView jv) {
+		GolView gv = new GolView(jv.toString(),Integer.toString(partido.getIdPartido()), minuto, sentido);
+		gv.setIdGol(idGol);
+		return gv;
+	}
+	
+	private void actualizar() {
+		GolDAO.getInstancia().actualizar(this);
 	}
 }

@@ -1,27 +1,34 @@
 package view;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 
-public class CampeonatoView {
+public class CampeonatoView implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5760207605934261631L;
 	private Integer idCampeonato;
 	private String descripcion;
 	private Date fechaInicio;
 	private Date fechaFin;
 	private String estado;
+	private Character tieneZonas;
 	private List<ClubView> inscriptos;
 	
-	public CampeonatoView(Integer idCampeonato, String descripcion, Date fechaInicio, Date fechaFin, String estado,
-			List<ClubView> inscriptos) {
-		this.idCampeonato = idCampeonato;
+	public CampeonatoView(String descripcion, Date fechaInicio, Date fechaFin, String estado, List<ClubView> inscriptos, Character tieneZonas) {
 		this.descripcion = descripcion;
 		this.fechaInicio = fechaInicio;
 		this.fechaFin = fechaFin;
 		this.estado = estado;
 		this.inscriptos = inscriptos;
+		this.tieneZonas = tieneZonas;
 	}
+	
+	public CampeonatoView() {}
 
 	public Integer getIdCampeonato() {
 		return idCampeonato;
@@ -75,6 +82,14 @@ public class CampeonatoView {
 	public String toString() {
 		return "CampeonatoView [idCampeonato=" + idCampeonato + ", descripcion=" + descripcion + ", fechaInicio="
 				+ fechaInicio + ", fechaFin=" + fechaFin + ", estado=" + estado + "]";
+	}
+
+	public Character getTieneZonas() {
+		return tieneZonas;
+	}
+
+	public void setTieneZonas(Character tieneZonas) {
+		this.tieneZonas = tieneZonas;
 	}
 	
 	

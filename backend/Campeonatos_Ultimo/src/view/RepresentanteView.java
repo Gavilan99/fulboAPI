@@ -1,19 +1,26 @@
 package view;
 
-public class RepresentanteView {
+import java.io.Serializable;
 
+public class RepresentanteView implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8965730219707203636L;
 	private Integer legajo;
 	private String documento;
 	private String nombre;
 	private ClubView club;
 	
 	
-	public RepresentanteView(Integer legajo, String documento, String nombre, ClubView club) {
-		this.legajo = legajo;
+	public RepresentanteView(String documento, String nombre, ClubView club) {
 		this.documento = documento;
 		this.nombre = nombre;
 		this.club = club;
 	}
+	
+	public RepresentanteView() {}
 
 
 	public Integer getLegajo() {

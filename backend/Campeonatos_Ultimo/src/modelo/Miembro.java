@@ -10,6 +10,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import daos.MiembroDAO;
+import view.MiembroView;
+
 @Entity
 @Table(name = "listaJugadoresPartido")
 public class Miembro {
@@ -45,6 +48,7 @@ public class Miembro {
 
 	public void setJugador(Jugador jugador) {
 		this.jugador = jugador;
+		this.actualizar();
 	}
 
 	
@@ -54,6 +58,7 @@ public class Miembro {
 
 	public void setClub(Club club) {
 		this.club = club;
+		this.actualizar();
 	}
 
 	public Partido getPartido() {
@@ -62,6 +67,7 @@ public class Miembro {
 
 	public void setPartido(Partido partido) {
 		this.partido = partido;
+		this.actualizar();
 	}
 
 	public Integer getIngreso() {
@@ -70,6 +76,7 @@ public class Miembro {
 
 	public void setIngreso(Integer ingreso) {
 		this.ingreso = ingreso;
+		this.actualizar();
 	}
 
 	public Integer getEgreso() {
@@ -78,9 +85,29 @@ public class Miembro {
 
 	public void setEgreso(Integer egreso) {
 		this.egreso = egreso;
+		this.actualizar();
 	}
 
 	public Integer getIdLista() {
 		return idLista;
 	}
+	
+	public void grabar() {
+		MiembroDAO.getInstancia().grabar(this);
+	}
+	
+	private void actualizar() {
+		MiembroDAO.getInstancia().actualizar(this);
+	}
+
+	@Override
+	public String toString() {
+		return "Miembro [idLista=" + idLista + ", club=" + club.getNombre() + ", partido=" + partido .getIdPartido()+ ", jugador=" + jugador.getNombre()
+				+ ", ingreso=" + ingreso + ", egreso=" + egreso + "]";
+	}
+
+	public MiembroView toView() {
+		return new MiembroView(idLista, club.toString(), partido.getIdPartido(), jugador.toString(), ingreso, egreso);
+	}
+	
 }

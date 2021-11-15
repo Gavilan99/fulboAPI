@@ -14,6 +14,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import daos.CampeonatoDAO;
 import view.CampeonatoView;
 import view.ClubView;
 
@@ -30,6 +31,7 @@ public class Campeonato implements Comparable<Campeonato>{
 	@Temporal(value = TemporalType.DATE)
 	private Date fechaFin;
 	private String estado;
+	private Character tieneZonas;
 	@ManyToMany(mappedBy = "participaciones", fetch = FetchType.EAGER)
 	private List<Club> inscriptos;
 	
@@ -39,6 +41,8 @@ public class Campeonato implements Comparable<Campeonato>{
 		this.fechaInicio = fechaInicio;
 		this.fechaFin = fechaFin;
 		this.estado = estado;
+		this.tieneZonas='n';
+		CampeonatoDAO.getInstancia().grabar(this);
 	}
 	
 	public Campeonato() {}
@@ -65,6 +69,7 @@ public class Campeonato implements Comparable<Campeonato>{
 	
 	public void setEstado(String estado) {
 		this.estado = estado;
+		this.actualizar();
 	}
 	
 	public List<Club> getInscriptos(){
@@ -80,6 +85,7 @@ public class Campeonato implements Comparable<Campeonato>{
 		inscriptos.add(club);
 		if(!club.participa(this))
 			club.participa(this);
+		this.actualizar();
 	}
 	
 	public void desinscribirClub(Club club) {
@@ -95,6 +101,24 @@ public class Campeonato implements Comparable<Campeonato>{
 		for (Club c: inscriptos) {
 			clubesView.add(c.toView());
 		}
-		return new CampeonatoView(idCampeonato, descripcion, fechaInicio, fechaFin, estado, clubesView);
+		CampeonatoView cv = new CampeonatoView(descripcion, fechaInicio, fechaFin, estado, clubesView, tieneZonas);
+		cv.setIdCampeonato(idCampeonato);
+		return cv;
+	}
+	
+	private void actualizar() {
+		CampeonatoDAO.getInstancia().actualizar(this);
+	}
+	
+	public void eliminar() {
+		CampeonatoDAO.getInstancia().eliminar(this);
+	}
+
+	public Character getTieneZonas() {
+		return tieneZonas;
+	}
+
+	public void setTieneZonas(Character tieneZonas) {
+		this.tieneZonas = tieneZonas;
 	}
 }
