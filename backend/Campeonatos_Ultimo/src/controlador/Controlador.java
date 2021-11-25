@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import daos.CampeonatoDAO;
 import daos.ClubDAO;
@@ -12,6 +13,7 @@ import daos.JugadorDAO;
 import daos.MiembroDAO;
 import daos.PartidoDAO;
 import daos.RepresentanteDAO;
+import daos.UsuarioDAO;
 import exceptions.CampeonatoException;
 import exceptions.ClubException;
 import exceptions.JugadorException;
@@ -233,6 +235,15 @@ public class Controlador {
 		return CampeonatoDAO.getInstancia().ObtenerTablaPosicionesZonas(CampeonatoDAO.getInstancia().ObtenerCampeonatoPorId(idCampeonato), obtenerClubesPorZona(idCampeonato));
 	}
 	
+	public List<CampeonatoView> ObtenerCampeonatos(){
+		List<CampeonatoView> campsView = new ArrayList<CampeonatoView>();
+		List<Campeonato> camps = CampeonatoDAO.getInstancia().ObtenerCampeonatos();
+		for (Campeonato c: camps) {
+			campsView.add(c.toView());
+		}
+		return campsView;
+	}
+	
 	public List<CampeonatoView> ObtenerCampeonatosDelJugador(int idJugador) throws JugadorException{
 		List<CampeonatoView> campsView = new ArrayList<CampeonatoView>();
 		List<Campeonato> camps = JugadorDAO.getInstancia().ObtenerJugadorPorId(idJugador).getClub().getParticipaciones();
@@ -385,7 +396,8 @@ public class Controlador {
 		}
 		for (Partido p: misPartidos) {
 			p.grabar();
-		} 
+		}
+		c.setTieneZonas('s');
 	}
 	
 	private boolean validarPartido(Date fechaPartido, int idClubLocal, int idCLubVisitante) {
@@ -534,6 +546,47 @@ public class Controlador {
 		for (Partido p: partCamp) {
 			res.add(p.toView());
 		}
+		return res;
+	}
+	
+	public Integer ObtenerCantidadFechas(List<PartidoView> partidos) {
+		Integer maxFecha = 0;
+		for (PartidoView pv: partidos) {
+			if (pv.getNroFecha() != null && pv.getNroFecha() > maxFecha) {
+				maxFecha = pv.getNroFecha();
+			}
+		}
+		return maxFecha;
+	}
+	
+	public List<String> login(String usuario, String contraseña) {
+		return UsuarioDAO.getInstancia().login(usuario, contraseña);
+	}
+	
+	public Map<String, List<Integer>> obtenerDatosPartidoJugador(Integer idPartido, Integer idJugador) throws PartidoException, JugadorException {
+		Jugador j = JugadorDAO.getInstancia().ObtenerJugadorPorId(idJugador.intValue());
+		Map<String, List<Integer>> res = new HashMap<String, List<Integer>>();
+		List<Integer> minGoles = new ArrayList<Integer>();
+		List<Integer> minAmarillas = new ArrayList<Integer>();
+		List<Integer> minRojas = new ArrayList<Integer>();
+		for (Gol g: j.getGoles()) {
+			if (g.getPartido().getIdPartido().compareTo(idPartido) == 0) {
+				minGoles.add(g.getMinuto());
+			}
+		}
+		res.put("Gol", minGoles);
+		for (Falta f: j.getFaltas()) {
+			if (f.getPartido().getIdPartido().compareTo(idPartido) == 0) {
+				if (f.getTipo().equalsIgnoreCase("amarilla")) {
+					minAmarillas.add(f.getMinuto());
+				}
+				else if (f.getTipo().equalsIgnoreCase("roja")) {
+					minRojas.add(f.getMinuto());
+				}
+			}
+		}
+		res.put("Amarilla", minAmarillas);
+		res.put("Roja", minRojas);
 		return res;
 	}
 	

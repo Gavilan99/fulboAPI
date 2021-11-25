@@ -2,6 +2,7 @@ package view;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 public class PartidoView implements Serializable {
 
@@ -13,9 +14,11 @@ public class PartidoView implements Serializable {
 	private Integer nroFecha;
 	private Integer nroZona;
 	private Integer categoria;
+	private ClubView clubLocal;
+	private ClubView clubVisitante;
+	private Integer campeonato;
 	
-	
-	public PartidoView(Integer nroFecha, Integer nroZona, Integer categoria, Integer golesLocal, Integer golesVisitante, Date fechaPartido, char convalidaLocal, char convalidaVisitante) {
+	public PartidoView(Integer nroFecha, Integer nroZona, Integer categoria, Integer golesLocal, Integer golesVisitante, Date fechaPartido, char convalidaLocal, char convalidaVisitante, ClubView clubLocal, ClubView clubVisitante, List<MiembroView> jugadoresLocales, List<MiembroView> jugadoresVisitantes, Integer campeonato) {
 		this.nroFecha = nroFecha;
 		this.nroZona = nroZona;
 		this.categoria = categoria;
@@ -24,6 +27,11 @@ public class PartidoView implements Serializable {
 		this.fechaPartido = fechaPartido;
 		this.convalidaLocal = convalidaLocal;
 		this.convalidaVisitante = convalidaVisitante;
+		this.clubLocal = clubLocal;
+		this.clubVisitante = clubVisitante;
+		this.jugadoresLocales = jugadoresLocales;
+		this.jugadoresVisitantes = jugadoresVisitantes;
+		this.campeonato = campeonato;
 	}
 	
 	public PartidoView() {}
@@ -89,9 +97,48 @@ public class PartidoView implements Serializable {
 	public void setConvalidaVisitante(char convalidaVisitante) {
 		this.convalidaVisitante = convalidaVisitante;
 	}
+	public Integer getCampeonato() {
+		return campeonato;
+	}
+
+	public void setCampeonato(Integer campeonato) {
+		this.campeonato = campeonato;
+	}
+
+	public ClubView getClubLocal() {
+		return clubLocal;
+	}
+
+	public void setClubLocal(ClubView clubLocal) {
+		this.clubLocal = clubLocal;
+	}
+	public ClubView getClubVisitante() {
+		return clubVisitante;
+	}
+
+	public void setClubVisitante(ClubView clubVisitante) {
+		this.clubVisitante = clubVisitante;
+	}
+	public List<MiembroView> getJugadoresLocales() {
+		return jugadoresLocales;
+	}
+
+	public void setJugadoresLocales(List<MiembroView> jugadoresLocales) {
+		this.jugadoresLocales = jugadoresLocales;
+	}
+
+	public List<MiembroView> getJugadoresVisitantes() {
+		return jugadoresVisitantes;
+	}
+
+	public void setJugadoresVisitantes(List<MiembroView> jugadoresVisitantes) {
+		this.jugadoresVisitantes = jugadoresVisitantes;
+	}
 	private Integer golesLocal;
 	private Integer golesVisitante;
 	private Date fechaPartido;
 	private char convalidaLocal;
 	private char convalidaVisitante;
+	private List<MiembroView> jugadoresLocales;
+	private List<MiembroView> jugadoresVisitantes;
 }

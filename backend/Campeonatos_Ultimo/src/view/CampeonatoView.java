@@ -17,13 +17,15 @@ public class CampeonatoView implements Serializable {
 	private Date fechaFin;
 	private String estado;
 	private List<ClubView> inscriptos;
+	private Character tieneZonas;
 	
-	public CampeonatoView(String descripcion, Date fechaInicio, Date fechaFin, String estado, List<ClubView> inscriptos) {
+	public CampeonatoView(String descripcion, Date fechaInicio, Date fechaFin, String estado, List<ClubView> inscriptos, Character tieneZonas) {
 		this.descripcion = descripcion;
 		this.fechaInicio = fechaInicio;
 		this.fechaFin = fechaFin;
 		this.estado = estado;
 		this.inscriptos = inscriptos;
+		this.tieneZonas = tieneZonas;
 	}
 	
 	public CampeonatoView() {}
@@ -74,6 +76,14 @@ public class CampeonatoView implements Serializable {
 
 	public void setInscriptos(List<ClubView> inscriptos) {
 		this.inscriptos = inscriptos;
+	}
+
+	public Character getTieneZonas() {
+		return tieneZonas;
+	}
+
+	public void setTieneZonas(Character tieneZonas) {
+		this.tieneZonas = tieneZonas;
 	}
 
 	@Override

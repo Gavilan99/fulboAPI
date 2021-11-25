@@ -47,20 +47,7 @@ public class TestConsultas {
 			System.out.println(cl);
 		}
 		*/
-		try {
-			List<List<Double>> tabla = Controlador.getInstancia().ObtenerTablaPosiciones(5);
-			System.out.println(Controlador.getInstancia().ObtenerDatosCampeonato(5).getDescripcion());
-			System.out.println("idClub       cantidadJugados  cantidadganados cantidadempatados   cantidadperdidos   golesFavor   golesContra   diferenciaGoles        puntos           promedio");
-			for(List<Double> fila: tabla) {
-				for(Double dato: fila) {
-					System.out.print(" " + dato + "             ");
-				}
-				System.out.println("\n");
-			}
-		} catch (CampeonatoException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		Controlador.getInstancia().login("chiquitapia", "Barracas22");
 		
 	}
 

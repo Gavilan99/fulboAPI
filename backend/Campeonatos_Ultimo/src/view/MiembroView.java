@@ -9,7 +9,7 @@ public class MiembroView implements Serializable{
 	 */
 	private static final long serialVersionUID = -6445461797191827012L;
 	private Integer idLista; 
-	private String club;
+	private Integer club;
 	private Integer partido;
 	
 	
@@ -19,7 +19,7 @@ public class MiembroView implements Serializable{
 				+ ", ingreso=" + ingreso + ", egreso=" + egreso + "]";
 	}
 
-	public MiembroView(Integer idLista, String club, Integer partido, String jugador, Integer ingreso, Integer egreso) {
+	public MiembroView(Integer idLista, Integer club, Integer partido, Integer jugador, Integer ingreso, Integer egreso) {
 		this.idLista = idLista;
 		this.club = club;
 		this.partido = partido;
@@ -36,10 +36,10 @@ public class MiembroView implements Serializable{
 	public void setIdLista(Integer idLista) {
 		this.idLista = idLista;
 	}
-	public String getClub() {
+	public Integer getClub() {
 		return club;
 	}
-	public void setClub(String club) {
+	public void setClub(Integer club) {
 		this.club = club;
 	}
 	public Integer getPartido() {
@@ -48,10 +48,10 @@ public class MiembroView implements Serializable{
 	public void setPartido(Integer partido) {
 		this.partido = partido;
 	}
-	public String getJugador() {
+	public Integer getJugador() {
 		return jugador;
 	}
-	public void setJugador(String jugador) {
+	public void setJugador(Integer jugador) {
 		this.jugador = jugador;
 	}
 	public Integer getIngreso() {
@@ -66,7 +66,7 @@ public class MiembroView implements Serializable{
 	public void setEgreso(Integer egreso) {
 		this.egreso = egreso;
 	}
-	private String jugador;
+	private Integer jugador;
 	private Integer ingreso;
 	private Integer egreso;
 }

@@ -128,7 +128,9 @@ public class CampeonatoDAO {
 		List<Double> fila;
 		Session s = HibernateUtil.getSessionFactory().openSession();
 		s.beginTransaction();
+		int indice;
 		for (Club cl: c.getInscriptos()) {
+			indice = 0;
 			fila = new ArrayList<Double>();
 			fila.add(new Double((int)s.createSQLQuery("select idClub from tablaPosiciones" + c.getDescripcion().replace(" ", "") + " where idClub = " + cl.getIdClub()).uniqueResult()));
 			fila.add(new Double((int) s.createSQLQuery("select cantidadJugados from tablaPosiciones" + c.getDescripcion().replace(" ", "") + " where idClub = " + cl.getIdClub()).uniqueResult()));
@@ -140,7 +142,15 @@ public class CampeonatoDAO {
 			fila.add(new Double((int) s.createSQLQuery("select diferenciaGoles from tablaPosiciones" + c.getDescripcion().replace(" ", "") + " where idClub = " + cl.getIdClub()).uniqueResult()));
 			fila.add(new Double((int) s.createSQLQuery("select puntos from tablaPosiciones" + c.getDescripcion().replace(" ", "") + " where idClub = " + cl.getIdClub()).uniqueResult()));
 			fila.add(((BigDecimal)s.createSQLQuery("select promedio from tablaPosiciones" + c.getDescripcion().replace(" ", "") + " where idClub = " + cl.getIdClub()).uniqueResult()).doubleValue());
-			tabla.add(fila);
+			for (int i=0; i < tabla.size(); i++) {
+				if ((double) fila.get(8) < (double) tabla.get(i).get(8) || ((double) fila.get(8) == (double) tabla.get(i).get(8) && (double) fila.get(7) < (double) tabla.get(i).get(7)) || ((double) fila.get(8) == (double) tabla.get(i).get(8) && (double) fila.get(7) == (double) tabla.get(i).get(7) && (double) fila.get(5) < (double) tabla.get(i).get(5))) {
+					indice++;
+				}
+				else {
+					break;
+				}
+			}
+			tabla.add(indice, fila);
 		}
 		s.getTransaction().commit();
 		s.close();
@@ -154,9 +164,11 @@ public class CampeonatoDAO {
 		List<Double> fila;
 		Session s = HibernateUtil.getSessionFactory().openSession();
 		s.beginTransaction();
+		int indice;
 		for (Integer z: idClubes.keySet()) {
 			tabla = new ArrayList<>();
 			for (Club cl: c.getInscriptos()) {
+				indice = 0;
 				if (idClubes.get(z).contains(cl.getIdClub())) {
 					fila = new ArrayList<Double>();
 					fila.add(new Double((int)s.createSQLQuery("select idClub from tablaPosiciones" + c.getDescripcion().replace(" ", "") + "Zona" + z + " where idClub = " + cl.getIdClub()).uniqueResult()));
@@ -169,7 +181,15 @@ public class CampeonatoDAO {
 					fila.add(new Double((int) s.createSQLQuery("select diferenciaGoles from tablaPosiciones" + c.getDescripcion().replace(" ", "") + "Zona" + z + " where idClub = " + cl.getIdClub()).uniqueResult()));
 					fila.add(new Double((int) s.createSQLQuery("select puntos from tablaPosiciones" + c.getDescripcion().replace(" ", "") + "Zona" + z + " where idClub = " + cl.getIdClub()).uniqueResult()));
 					fila.add(((BigDecimal)s.createSQLQuery("select promedio from tablaPosiciones" + c.getDescripcion().replace(" ", "") + "Zona" + z + " where idClub = " + cl.getIdClub()).uniqueResult()).doubleValue());
-					tabla.add(fila);
+					for (int i=0; i < tabla.size(); i++) {
+						if ((double) fila.get(8) < (double) tabla.get(i).get(8) || ((double) fila.get(8) == (double) tabla.get(i).get(8) && (double) fila.get(7) < (double) tabla.get(i).get(7)) || ((double) fila.get(8) == (double) tabla.get(i).get(8) && (double) fila.get(7) == (double) tabla.get(i).get(7) && (double) fila.get(5) < (double) tabla.get(i).get(5))) {
+							indice++;
+						}
+						else {
+							break;
+						}
+					}
+					tabla.add(indice, fila);
 				}
 			}
 			documento.add(tabla);

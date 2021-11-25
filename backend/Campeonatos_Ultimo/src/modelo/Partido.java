@@ -21,6 +21,7 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 import daos.PartidoDAO;
+import view.MiembroView;
 import view.PartidoView;
 
 @Entity
@@ -255,7 +256,15 @@ public class Partido {
 	}
 	
 	public PartidoView toView() {
-		PartidoView pv = new PartidoView(nroFecha, nroZona, categoria, golesLocal, golesVisitante, fechaPartido, convalidaLocal, convalidaVisitante);
+		List<MiembroView> jlv = new ArrayList<MiembroView>();
+		List<MiembroView> jvv = new ArrayList<MiembroView>();
+		for (Miembro jl: jugadoresLocales) {
+			jlv.add(jl.toView());
+		}
+		for (Miembro jv: jugadoresVisitantes) {
+			jvv.add(jv.toView());
+		}
+		PartidoView pv = new PartidoView(nroFecha, nroZona, categoria, golesLocal, golesVisitante, fechaPartido, convalidaLocal, convalidaVisitante, clubLocal.toView(), clubVisitante.toView(), jlv, jvv, campeonato.getIdCampeonato());
 		pv.setIdPartido(idPartido);
 		return pv;
 	}

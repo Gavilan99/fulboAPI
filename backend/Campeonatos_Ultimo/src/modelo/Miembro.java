@@ -107,7 +107,7 @@ public class Miembro {
 	}
 
 	public MiembroView toView() {
-		return new MiembroView(idLista, club.toString(), partido.getIdPartido(), jugador.toString(), ingreso, egreso);
+		return new MiembroView(idLista, club.getIdClub(), partido.getIdPartido(), jugador.getIdJugador(), ingreso, egreso);
 	}
 	
 }

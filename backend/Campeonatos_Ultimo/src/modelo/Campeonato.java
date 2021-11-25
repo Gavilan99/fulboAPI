@@ -33,6 +33,7 @@ public class Campeonato implements Comparable<Campeonato>{
 	private String estado;
 	@ManyToMany(mappedBy = "participaciones", fetch = FetchType.EAGER)
 	private List<Club> inscriptos;
+	private Character tieneZonas;
 	
 	public Campeonato(String descripcion, Date fechaInicio, Date fechaFin, String estado) {
 		this.idCampeonato = null;
@@ -40,6 +41,7 @@ public class Campeonato implements Comparable<Campeonato>{
 		this.fechaInicio = fechaInicio;
 		this.fechaFin = fechaFin;
 		this.estado = estado;
+		this.tieneZonas = 'n';
 		CampeonatoDAO.getInstancia().grabar(this);
 	}
 	
@@ -90,6 +92,15 @@ public class Campeonato implements Comparable<Campeonato>{
 		inscriptos.remove(club);
 	}
 	
+	public Character getTieneZonas() {
+		return tieneZonas;
+	}
+
+	public void setTieneZonas(Character tieneZonas) {
+		this.tieneZonas = tieneZonas;
+		this.actualizar();
+	}
+
 	public String toString() {
 		return descripcion + " : " + estado;
 	}
@@ -99,7 +110,7 @@ public class Campeonato implements Comparable<Campeonato>{
 		for (Club c: inscriptos) {
 			clubesView.add(c.toView());
 		}
-		CampeonatoView cv = new CampeonatoView(descripcion, fechaInicio, fechaFin, estado, clubesView);
+		CampeonatoView cv = new CampeonatoView(descripcion, fechaInicio, fechaFin, estado, clubesView, tieneZonas);
 		cv.setIdCampeonato(idCampeonato);
 		return cv;
 	}
