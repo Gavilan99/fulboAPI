@@ -59,6 +59,12 @@ public class RestController {
 	public List<CampeonatoView> getCampeonatos() { //ANDO
 		return Controlador.getInstancia().ObtenerCampeonatos();
 	}
+	
+	@CrossOrigin(origins = "http://localhost:3000")
+	@GetMapping("/getClubes")
+	public List<ClubView> getClubes() { //ANDO
+		return Controlador.getInstancia().ObtenerClubes();
+	}
 
 	@CrossOrigin(origins = "http://localhost:3000")
 	@GetMapping("/getCampeonatosJugador")
@@ -180,11 +186,13 @@ public class RestController {
 	
 	@CrossOrigin(origins = "http://localhost:3000")
 	@PostMapping("/addPartidosZonas")
-	public void addPartidosZonas(@RequestParam (name = "idCampeonato") Integer idCampeonato, @RequestParam (name = "categoria") Integer categoria, @RequestBody ZonaVO clubes) { //ANDO
+	public void addPartidosZonas(@RequestParam (name = "idCampeonato") Integer idCampeonato, @RequestParam (name = "categoria") Integer categoria, @RequestBody List<List<Integer>> clubes) { //ANDO
 		try {
 			HashMap<Integer, List<Integer>> idClubes = new HashMap<Integer, List<Integer>>();
-			for (int i = 1; i <= clubes.getClubes().size(); i++) {
-				idClubes.put(i, clubes.getClubes().get(i-1));
+			for (int i = 1; i <= clubes.size(); i++) {
+				if (clubes.get(i-1).size() > 0) {
+					idClubes.put(i, clubes.get(i-1));
+				}
 			}
 			Controlador.getInstancia().crearPartidosZonas(idCampeonato, categoria, idClubes);
 		} catch (CampeonatoException e) {

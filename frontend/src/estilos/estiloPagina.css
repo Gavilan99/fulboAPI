@@ -108,6 +108,7 @@ h2 {
     margin-bottom: 20px;
 }
 
+
 #vs {
     position: absolute;
     left: 720px;
@@ -129,6 +130,20 @@ h2 {
     margin-bottom: 50px;
 }
 
+#glocal {
+    position: absolute;
+    left: 690px;
+    top: 150px;
+    margin-bottom: 50px;
+}
+
+#gvisitante {
+    position: absolute;
+    left: 760px;
+    top: 150px;
+    margin-bottom: 50px;
+}
+
 .descripcionLocal {
     position: absolute;
     left: 660px;
@@ -141,8 +156,62 @@ h2 {
     top: 550px;
 }
 
+.datoPartido {
+    position: sticky;
+    margin-left: 25px;
+    margin-bottom: 10px;
+}
+
 #espacio {
     color: #fff;
     position: absolute;
     top: 950px;
 }
+
+#campDatos {
+    text-align: center;
+}
+
+#cantZonas {
+    text-align: center;
+}
+
+#btnConf {
+    text-align: center;
+    margin-top: 10px;
+}
+
+#muestroConf {
+    display: none;
+    border: #000 solid 1.5px;
+    background-color: #7AF329;
+    position: absolute;
+    left: 670px;
+    top: 600px;
+    width: 150px;
+    text-align: center;
+    margin: auto;
+    margin-bottom: 20px;
+    padding: 1em;
+}
+
+#btnVolver {
+    display: none;
+    border: #000 solid 1.5px;
+    background-color: #7AF329;
+    position: sticky;
+    left: 670px;
+    top: 1500px;
+    width: 150px;
+    text-align: center;
+    margin: auto;
+    margin-bottom: 20px;
+    padding: 1em;
+}
+
+#btnConfirmar {
+    position: sticky;
+    left: 650px;
+}
+
+

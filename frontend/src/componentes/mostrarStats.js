@@ -103,12 +103,13 @@ class MostrarStats extends React.Component {
             return (
                 <div>
                     <h2 id="vs">vs</h2>
-                    <h2 id="clocal">{this.state.partido.clubLocal.nombre}     {this.state.partido.golesLocal}</h2>
-                    <h2 id="cvisitante">{this.state.partido.clubVisitante.nombre}     {this.state.partido.golesVisitante}</h2>
+                    <h2 id="clocal">{this.state.partido.clubLocal.nombre}</h2>
+                    <h2 id="glocal">{this.state.partido.golesLocal}</h2>
+                    <h2 id="gvisitante">{this.state.partido.golesVisitante}</h2>
+                    <h2 id="cvisitante">{this.state.partido.clubVisitante.nombre}</h2>
                     <div class="descripcionLocal">
                         <div class="hechos">
                             <h4>ESTADISTICAS LOCAL</h4>
-                            <br/>
                             {this.state.datosJugadoresL.map((datoJ) => mostrarDatoPartido(datoJ))}
                         </div>
                     </div>
@@ -116,7 +117,6 @@ class MostrarStats extends React.Component {
                         
                         <div class="hechos">
                             <h4>ESTADISTICAS VISITANTE</h4>
-                            <br/>
                             {this.state.datosJugadoresV.map((datoJ) => mostrarDatoPartido(datoJ))}
                         </div>
                     </div>

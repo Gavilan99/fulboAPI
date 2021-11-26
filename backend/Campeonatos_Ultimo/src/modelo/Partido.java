@@ -164,6 +164,16 @@ public class Partido {
 	public char getConvalidaVisitante() {
 		return convalidaVisitante;
 	}
+	
+	
+
+	public void setGolesLocal(Integer golesLocal) {
+		this.golesLocal = golesLocal;
+	}
+
+	public void setGolesVisitante(Integer golesVisitante) {
+		this.golesVisitante = golesVisitante;
+	}
 
 	public Campeonato getCampeonato() {
 		return campeonato;

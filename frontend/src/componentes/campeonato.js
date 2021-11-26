@@ -140,6 +140,28 @@ class Campeonato extends React.Component {
               tabla(this.state.campeonato, zona, index + 1)
             )}
           </div>
+          <div class="fixture">
+            <div class="fechaSelectores">
+              Fecha: 
+              <select onChange={this.onChangeBuscarFecha.bind(this)}>
+                 {this.state.cantFechas.map(fecha => {
+                    return (
+                      <option value={fecha}> {fecha} </option>
+                    )
+                  })}
+                </select>
+            </div>
+            <table class="tablafixture">
+                <tbody>
+                  <tr class="diafecha">{this.state.partidos.filter((partido) => partido.nroFecha === this.state.fechaActual).at(0).fechaPartido}</tr>
+                  {this.state.partidos
+                  .filter((partido) => partido.nroFecha === this.state.fechaActual)
+                  .map((part, index) => 
+                    mostrarPartido(part, index)
+                  )}
+                </tbody>
+            </table>
+          </div>
         </div>
       );
     }

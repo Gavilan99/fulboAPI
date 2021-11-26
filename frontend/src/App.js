@@ -4,13 +4,18 @@ import "./estilos/estiloPagina.css";
 import Campeonato from "./componentes/campeonato";
 import Home from "./componentes/home.js"
 import MostrarStats from "./componentes/mostrarStats";
+import CrearCampeonato from "./componentes/crearCampeonato";
+import CrearCampeonatoClubes from "./componentes/crearCampeonatoClubes";
 
 const App = props => {
 
   const initialUserState = {
     usuario: "",
     contraseña: "",
-    log: false
+    rol: "Administrador",
+    id: 1,
+    log: false,
+    idRol: "1" + "-" + "Administrador"
   }
 
   const [user, setUser] = useState(initialUserState)
@@ -61,71 +66,147 @@ const App = props => {
           </div>
         </div>
       );
-    } else {
-      return (
-        <div>
-          <header>
-            <h1>Campeonato Manager</h1>
-          </header>
-          <nav className="navbar navbar-expand navbar-dark " id="navbar">
-            <div className="navbar-nav mr-auto">
-              <li id="nav-item">
-                <Link to={"/home"} className="nav-link">
-                  Home
-                </Link>
-              </li>
-
-              <li id="nav-item">
-                <Link to={"/misDatos"} className="nav-link">
-                  Mis Datos
-                </Link>
-              </li>
-
-              <li id="nav-item">
-                <a
-                  onClick={logout}
-                  className="nav-link"
-                  style={{ cursor: "pointer" }}
-                >
-                  Logout {user.usuario}
-                </a>
-              </li>
-            </div>
-          </nav>
-
+    } else{
+      if (user.rol === "Jugador") {
+        return (
           <div>
-            <Switch>
-              <Route
-                exact
-                path={["/", "/home"]}
-                render={(props) => (
-                  <Home {...props} user={user} />
-                )}
-              />
-              {/* <Route
-                path="/misDatos"
-                render={(props) => (
-                  <MisDatos {...props} user={this.state.user} />
-                )}
-              /> */}
-              <Route
-                exact
-                path="/campeonato/:id"
-                render={(props) => (
-                  <Campeonato {...props} user={user} />
-                )}
-              />
-              <Route
-                exact
-                path="/partido/:id"
-                render={(props) => (
-                  <MostrarStats {...props} user={user} />
-                )}
-              />
-            </Switch>
+            <header>
+              <h1>Campeonato Manager</h1>
+            </header>
+            <nav className="navbar navbar-expand navbar-dark " id="navbar">
+              <div className="navbar-nav mr-auto">
+                <li id="nav-item">
+                  <Link to={"/home"} className="nav-link">
+                    Home
+                  </Link>
+                </li>
+
+                <li id="nav-item">
+                  <Link to={"/misDatos"} className="nav-link">
+                    Mis Datos
+                  </Link>
+                </li>
+
+                <li id="nav-item">
+                  <a
+                    onClick={logout}
+                    className="nav-link"
+                    style={{ cursor: "pointer" }}
+                  >
+                    Logout {user.usuario}
+                  </a>
+                </li>
+              </div>
+            </nav>
+
+            <div>
+              <Switch>
+                <Route
+                  exact
+                  path={["/", "/home"]}
+                  render={(props) => (
+                    <Home {...props} user={user} />
+                  )}
+                />
+                {/* <Route
+                  path="/misDatos"
+                  render={(props) => (
+                    <MisDatos {...props} user={this.state.user} />
+                  )}
+                /> */}
+                <Route
+                  exact
+                  path="/campeonato/:id"
+                  render={(props) => (
+                    <Campeonato {...props} user={user} />
+                  )}
+                />
+                <Route
+                  exact
+                  path="/partido/:id"
+                  render={(props) => (
+                    <MostrarStats {...props} user={user} />
+                  )}
+                />
+              </Switch>
+            </div>
           </div>
-        </div>
-      );
+        );
+      }
+      else if (user.rol === "Administrador") {
+        return (
+          <div>
+            <header>
+              <h1>Campeonato Manager</h1>
+            </header>
+            <nav className="navbar navbar-expand navbar-dark " id="navbar">
+              <div className="navbar-nav mr-auto">
+                <li id="nav-item">
+                  <Link to={"/home"} className="nav-link">
+                    Home
+                  </Link>
+                </li>
+
+                <li id="nav-item">
+                  <Link to={"/crearCampeonato"} className="nav-link">
+                    Crear Campeonato
+                  </Link>
+                </li>
+
+                <li id="nav-item">
+                  <a
+                    onClick={logout}
+                    className="nav-link"
+                    style={{ cursor: "pointer" }}
+                  >
+                    Logout {user.usuario}
+                  </a>
+                </li>
+              </div>
+            </nav>
+
+            <div>
+              <Switch>
+                <Route
+                  exact
+                  path={["/", "/home"]}
+                  render={(props) => (
+                    <Home {...props} user={user} />
+                  )}
+                />
+                 <Route
+                  exact
+                  path="/crearCampeonato"
+                  render={(props) => (
+                    <CrearCampeonato {...props} user={user} />
+                  )}
+                />
+                <Route
+                  exact
+                  path="/crearCampeonatoClubes/:zonas"
+                  render={(props) => (
+                    <CrearCampeonatoClubes {...props} user={user} />
+                  )}
+                /> 
+                <Route
+                  exact
+                  path="/campeonato/:id"
+                  render={(props) => (
+                    <Campeonato {...props} user={user} />
+                  )}
+                />
+                <Route
+                  exact
+                  path="/partido/:id"
+                  render={(props) => (
+                    <MostrarStats {...props} user={user} />
+                  )}
+                />
+              </Switch>
+            </div>
+          </div>
+        );
+      }
     }
 }
 

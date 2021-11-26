@@ -244,6 +244,15 @@ public class Controlador {
 		return campsView;
 	}
 	
+	public List<ClubView> ObtenerClubes() {
+		List<ClubView> clubsView = new ArrayList<ClubView>();
+		List<Club> clubs = ClubDAO.getInstancia().ObtenerClubes();
+		for (Club c: clubs) {
+			clubsView.add(c.toView());
+		}
+		return clubsView;
+	}
+	
 	public List<CampeonatoView> ObtenerCampeonatosDelJugador(int idJugador) throws JugadorException{
 		List<CampeonatoView> campsView = new ArrayList<CampeonatoView>();
 		List<Campeonato> camps = JugadorDAO.getInstancia().ObtenerJugadorPorId(idJugador).getClub().getParticipaciones();

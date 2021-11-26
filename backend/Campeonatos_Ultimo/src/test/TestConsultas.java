@@ -6,6 +6,7 @@ import controlador.Controlador;
 import exceptions.CampeonatoException;
 import exceptions.JugadorException;
 import exceptions.PartidoException;
+import exceptions.RepresentanteException;
 import view.CampeonatoView;
 import view.ClubView;
 
@@ -47,7 +48,20 @@ public class TestConsultas {
 			System.out.println(cl);
 		}
 		*/
-		Controlador.getInstancia().login("chiquitapia", "Barracas22");
+		try {
+			Controlador.getInstancia().CargarGol(542, 33, 78, "a favor");
+			Controlador.getInstancia().validarResultado(542, 3, 'S');
+			Controlador.getInstancia().validarResultado(542, 1, 'S');
+		} catch (PartidoException | JugadorException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RepresentanteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (CampeonatoException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 
