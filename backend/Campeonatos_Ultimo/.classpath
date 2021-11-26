@@ -6,17 +6,17 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="E:/Uade/Tercer Año/Segundo Cuatrimestre/Aplicaciones Interactivas/TPO/slf4j-api-1.7.32.jar"/>
-	<classpathentry kind="lib" path="E:/Uade/Tercer Año/Segundo Cuatrimestre/Aplicaciones Interactivas/Hibernate/Archivos Hibernate/lib/antlr-2.7.6.jar"/>
-	<classpathentry kind="lib" path="E:/Uade/Tercer Año/Segundo Cuatrimestre/Aplicaciones Interactivas/Hibernate/Archivos Hibernate/lib/commons-collections-3.1.jar"/>
-	<classpathentry kind="lib" path="E:/Uade/Tercer Año/Segundo Cuatrimestre/Aplicaciones Interactivas/Hibernate/Archivos Hibernate/lib/commons-logging-1.1.1.jar"/>
-	<classpathentry kind="lib" path="E:/Uade/Tercer Año/Segundo Cuatrimestre/Aplicaciones Interactivas/Hibernate/Archivos Hibernate/lib/dom4j-1.6.1.jar"/>
-	<classpathentry kind="lib" path="E:/Uade/Tercer Año/Segundo Cuatrimestre/Aplicaciones Interactivas/Hibernate/Archivos Hibernate/lib/ejb3-persistence.jar"/>
-	<classpathentry kind="lib" path="E:/Uade/Tercer Año/Segundo Cuatrimestre/Aplicaciones Interactivas/Hibernate/Archivos Hibernate/lib/hibernate3.jar"/>
-	<classpathentry kind="lib" path="E:/Uade/Tercer Año/Segundo Cuatrimestre/Aplicaciones Interactivas/Hibernate/Archivos Hibernate/lib/hibernate-annotations.jar"/>
-	<classpathentry kind="lib" path="E:/Uade/Tercer Año/Segundo Cuatrimestre/Aplicaciones Interactivas/Hibernate/Archivos Hibernate/lib/hibernate-commons-annotations.jar"/>
-	<classpathentry kind="lib" path="E:/Uade/Tercer Año/Segundo Cuatrimestre/Aplicaciones Interactivas/Hibernate/Archivos Hibernate/lib/javassist-3.4.GA.jar"/>
-	<classpathentry kind="lib" path="E:/Uade/Tercer Año/Segundo Cuatrimestre/Aplicaciones Interactivas/Hibernate/Archivos Hibernate/lib/jta-1.1.jar"/>
-	<classpathentry kind="lib" path="E:/Uade/Tercer Año/Segundo Cuatrimestre/Aplicaciones Interactivas/Hibernate/Archivos Hibernate/lib/jtds-1.2.5.jar"/>
+	<classpathentry kind="lib" path="C:/Users/jmgav/OneDrive/Documentos/UADE/2021/Segundo Cuatri/1 - Aplicaciones interactivas/Hibernate/lib/antlr-2.7.6.jar"/>
+	<classpathentry kind="lib" path="C:/Users/jmgav/OneDrive/Documentos/UADE/2021/Segundo Cuatri/1 - Aplicaciones interactivas/Hibernate/lib/commons-collections-3.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/jmgav/OneDrive/Documentos/UADE/2021/Segundo Cuatri/1 - Aplicaciones interactivas/Hibernate/lib/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/jmgav/OneDrive/Documentos/UADE/2021/Segundo Cuatri/1 - Aplicaciones interactivas/Hibernate/lib/dom4j-1.6.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/jmgav/OneDrive/Documentos/UADE/2021/Segundo Cuatri/1 - Aplicaciones interactivas/Hibernate/lib/ejb3-persistence.jar"/>
+	<classpathentry kind="lib" path="C:/Users/jmgav/OneDrive/Documentos/UADE/2021/Segundo Cuatri/1 - Aplicaciones interactivas/Hibernate/lib/hibernate3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/jmgav/OneDrive/Documentos/UADE/2021/Segundo Cuatri/1 - Aplicaciones interactivas/Hibernate/lib/hibernate-annotations.jar"/>
+	<classpathentry kind="lib" path="C:/Users/jmgav/OneDrive/Documentos/UADE/2021/Segundo Cuatri/1 - Aplicaciones interactivas/Hibernate/lib/hibernate-commons-annotations.jar"/>
+	<classpathentry kind="lib" path="C:/Users/jmgav/OneDrive/Documentos/UADE/2021/Segundo Cuatri/1 - Aplicaciones interactivas/Hibernate/lib/javassist-3.4.GA.jar"/>
+	<classpathentry kind="lib" path="C:/Users/jmgav/OneDrive/Documentos/UADE/2021/Segundo Cuatri/1 - Aplicaciones interactivas/Hibernate/lib/jta-1.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/jmgav/OneDrive/Documentos/UADE/2021/Segundo Cuatri/1 - Aplicaciones interactivas/Hibernate/lib/jtds-1.2.5.jar"/>
+	<classpathentry kind="lib" path="C:/Users/jmgav/OneDrive/Documentos/UADE/2021/Segundo Cuatri/1 - Aplicaciones interactivas/Hibernate/slf4j-api-1.7.32.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

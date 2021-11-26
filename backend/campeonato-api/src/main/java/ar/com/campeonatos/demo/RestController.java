@@ -487,4 +487,10 @@ public class RestController {
 			e.printStackTrace();
 		}
 	}
+	
+	@CrossOrigin(origins = "http://localhost:3000")
+	@GetMapping("/getJugadoresPartido")
+	public List<JugadorView> getJugadoresPartido(@RequestParam (name = "idPartido") Integer idPartido){
+		return Controlador.getInstancia().obtenerJugadoresPartido(idPartido);
+	}
 }

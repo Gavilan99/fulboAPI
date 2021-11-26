@@ -14,7 +14,7 @@ public class TestCarga {
 	@SuppressWarnings("deprecation")
 	public static void main(String[] args) throws ClubException, CampeonatoException, JugadorException, PartidoException, RepresentanteException {
 		// TODO Auto-generated method stub
-		Controlador.getInstancia().crearCampeonato("Copa Libertadores",  new Date(58, 6, 2, 0, 0, 0), new Date(58, 6, 29, 0, 0, 0), "activo");
+		/*Controlador.getInstancia().crearCampeonato("Copa Libertadores",  new Date(58, 6, 2, 0, 0, 0), new Date(58, 6, 29, 0, 0, 0), "activo");
 		Controlador.getInstancia().crearCampeonato("Copa America",  new Date(59, 6, 2, 0, 0, 0), new Date(59, 6, 29, 0, 0, 0), "activo");
 		Controlador.getInstancia().crearCampeonato("Copa Europa",  new Date(60, 6, 2, 0, 0, 0), new Date(60, 6, 29, 0, 0, 0), "activo");
 		Controlador.getInstancia().crearCampeonato("Copa Africa",  new Date(61, 6, 2, 0, 0, 0), new Date(61, 6, 29, 0, 0, 0), "activo");
@@ -22,9 +22,12 @@ public class TestCarga {
 	
 		Controlador.getInstancia().InscribirClubACampeonato(1, 1);
 		Controlador.getInstancia().InscribirClubACampeonato(2, 1);
-		Controlador.getInstancia().crearPartidos(1, 90);
+		Controlador.getInstancia().crearPartidos(1, 90);*/
 		
-		
+		Controlador.getInstancia().agregarJugadorEnLista(1, 2754, 3);
+		Controlador.getInstancia().agregarJugadorEnLista(1, 2769, 3);
+		Controlador.getInstancia().agregarJugadorEnLista(1, 2532, 3);
+		Controlador.getInstancia().agregarJugadorEnLista(1, 2616, 3);
 		
 		//Controlador.getInstancia().cambioJugadorDeClub(1, 2);
 		

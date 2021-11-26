@@ -611,4 +611,8 @@ public class Controlador {
 		}
 		return res;
 	}
+	
+	public List<JugadorView> obtenerJugadoresPartido(Integer idPartido){
+		return MiembroDAO.getInstancia().ObtenerJugadoresPartido(idPartido);
+	}
 }
