@@ -17,7 +17,7 @@ class App extends React.Component {
       id: 0,
       log: false,
       idRol: ""
-    }, cargando: false
+    }, logueado: false
   }
 
   this.handleInputChange = this.handleInputChange.bind(this)
@@ -25,6 +25,7 @@ class App extends React.Component {
   this.logout = this.logout.bind(this)
 
 }
+
 
 
    handleInputChange(e) {
@@ -36,28 +37,29 @@ class App extends React.Component {
 
 
 
+
   /*crea funciones de login y logout*/
-   login() {
-     var userDummy = this.state.user 
+   login(e) {
+    e.preventDefault()
+    var userDummy = this.state.user
      fetch("http://localhost:8080/login?usuario=" + this.state.user.usuario+"&contraseña=" + this.state.user.contraseña)
-     .then(response => response.json())
-     .then(result => {
-       if (result.usuario ==="invalido"){
-         alert("Usuario o contraseña incorrectos")
+     .then(response => response.json()).then(datos => {
+       if (datos.usuario === "invalido"){
+         alert("Usuario o contraseña invalidos")
        }
        else{
-       userDummy.rol = result.rol;
-       userDummy.id=result.idRol;
-      userDummy.usuario=result.usuario;
-      userDummy.contraseña= result.contraseña;
-      userDummy.idRol= result.idRol.toString() + "-" + result.rol;
-      console.log(result);
-      userDummy.log=true;
-      this.setState({user: userDummy});this.setState({})
-    }})
-     .catch(e => console.log(e))
+        userDummy.usuario = datos.usuario;
+        userDummy.contraseña = datos.contraseña;
+        userDummy.id = datos.idRol;
+        userDummy.rol = datos.rol;
+        userDummy.idRol = datos.idRol.toString() + "-" + datos.rol;
+        userDummy.log=true;
+        console.log(userDummy);
+        this.setState({user: userDummy});
+       }
 
-  }
+     }).catch(e => console.log(e))
+   }
 
    logout() {
     
@@ -67,10 +69,8 @@ class App extends React.Component {
     userDummy.contraseña=""
     this.setState({user: userDummy})
   }
-
-
   render(){
-  if (!this.state.user.log && !this.state.cargando)   {
+  if (!this.state.user.log)   {
     return (
         <div>
           <h1>Campeonato Manager</h1>
@@ -102,11 +102,7 @@ class App extends React.Component {
         </div>
       );
     }
-    else if (this.state.cargando){
-      return (<div>Cargando...</div>)
-    }
     else {
-      console.log(this.state.user)
       return (
         <div>
           <header>
