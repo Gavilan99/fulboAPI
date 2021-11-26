@@ -121,6 +121,11 @@ class App extends React.Component {
                   Mis Datos
                 </Link>
               </li>
+              <li id="nav-item">
+                <Link to={"/miClub/" + this.state.user.idRol} className="nav-link">
+                  Mi Club
+                </Link>
+              </li>
 
               <li id="nav-item">
                 <a
@@ -162,7 +167,14 @@ class App extends React.Component {
                 exact
                 path="/partido/:id"
                 render={(props) => (
-                  <MostrarStats {...props} user={this.stateuser} />
+                  <MostrarStats {...props} user={this.state.user} />
+                )}
+              />
+              <Route
+                exact
+                path="/miclub/:id"
+                render={(props) => (
+                  <editarClub {...props} user={this.state.user} />
                 )}
               />
             </Switch>
