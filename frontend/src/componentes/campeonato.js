@@ -3,6 +3,7 @@ import "../estilos/estiloPagina.css";
 import tabla from "./tabla";
 import mostrarPartido from "./mostrarPartido";
 
+
 class Campeonato extends React.Component {
   constructor(props) {
     super(props);
@@ -93,6 +94,14 @@ class Campeonato extends React.Component {
       });
   }
 
+  cambiarEstado() {
+    let campeonatoDummy = this.state.campeonato
+    campeonatoDummy.estado == "activo" ? campeonatoDummy.estado = "inactivo" : campeonatoDummy.estado = "activo"
+  fetch("http://localhost:8080/updateCampeonato",{method:"PUT",mode: 'cors', body: JSON.stringify(this.state.campeonato), headers: {'Content-Type': 'application/json'}})
+  .then(this.setState({campeonato: campeonatoDummy}))
+  .catch(e => {console.log(e)})
+  }
+
   render() {
     if (this.state.cargando) {
       return (
@@ -104,6 +113,7 @@ class Campeonato extends React.Component {
       return (
         <div>
           <div class="titulo">{this.state.campeonato.descripcion}</div>
+          <div class="estado">{this.state.campeonato.estado} <button onClick={() => {this.cambiarEstado()}}>Editar Campeonato</button></div> 
           <div class="tablas">
             {tabla(this.state.campeonato, this.state.tabla, 0)}
           </div>
@@ -135,6 +145,7 @@ class Campeonato extends React.Component {
       return (
         <div>
           <div class="titulo">{this.state.campeonato.descripcion}</div>
+          <div class="estado">{this.state.campeonato.estado} <button onClick={() => {this.cambiarEstado()}}>Editar Campeonato</button></div>
           <div class="tablas">
             {this.state.tabla.map((zona, index) =>
               tabla(this.state.campeonato, zona, index + 1)

@@ -4,32 +4,73 @@ import "./estilos/estiloPagina.css";
 import Campeonato from "./componentes/campeonato";
 import Home from "./componentes/home.js"
 import MostrarStats from "./componentes/mostrarStats";
+import MisDatos from "./componentes/misDatos.js";
 
-const App = props => {
-
-  const initialUserState = {
-    usuario: "",
-    contraseña: "",
-    log: false
+class App extends React.Component {
+  constructor(props){
+    super(props)
+    this.state ={
+    user: {
+      usuario: "",
+      contraseña: "",
+      rol: "Jugador",
+      id: 0,
+      log: false,
+      idRol: ""
+    }, cargando: false
   }
 
-  const [user, setUser] = useState(initialUserState)
+  this.handleInputChange = this.handleInputChange.bind(this)
+  this.login = this.login.bind(this)
+  this.logout = this.logout.bind(this)
 
-  function handleInputChange(e) {
+}
+
+
+   handleInputChange(e) {
     const {name, value} = e.target
-    setUser({...user, [name]: value})
+    var userDummy = this.state.user
+    userDummy[name]= value
+    this.setState({user: userDummy})
   }
+
+
 
   /*crea funciones de login y logout*/
-  function login() {
-    setUser({...user, log: true})
+   login() {
+     var userDummy = this.state.user 
+     fetch("http://localhost:8080/login?usuario=" + this.state.user.usuario+"&contraseña=" + this.state.user.contraseña)
+     .then(response => response.json())
+     .then(result => {
+       if (result.usuario ==="invalido"){
+         alert("Usuario o contraseña incorrectos")
+       }
+       else{
+       userDummy.rol = result.rol;
+       userDummy.id=result.idRol;
+      userDummy.usuario=result.usuario;
+      userDummy.contraseña= result.contraseña;
+      userDummy.idRol= result.idRol.toString() + "-" + result.rol;
+      console.log(result);
+      userDummy.log=true;
+      this.setState({user: userDummy});this.setState({})
+    }})
+     .catch(e => console.log(e))
+
   }
 
-  function logout() {
-    setUser({...user, log: false})
+   logout() {
+    
+    var userDummy= this.state.user
+    userDummy.log=false
+    userDummy.usuario=""
+    userDummy.contraseña=""
+    this.setState({user: userDummy})
   }
 
-  if (!user.log) {
+
+  render(){
+  if (!this.state.user.log && !this.state.cargando)   {
     return (
         <div>
           <h1>Campeonato Manager</h1>
@@ -41,8 +82,8 @@ const App = props => {
                 <input
                   type="text"
                   name="usuario"
-                  value={user.usuario}
-                  onChange={handleInputChange}
+                  
+                  onChange={this.handleInputChange}
                 ></input>
               </div>
               <div id="contraseña">
@@ -50,18 +91,22 @@ const App = props => {
                 <input
                   type="text"
                   name="contraseña"
-                  value={user.contraseña}
-                  onChange={handleInputChange}
+                  onChange={this.handleInputChange}
                 ></input>
               </div>
               <div id="boton-login">
-                <button onClick={login}>Login</button>
+                <button onClick={this.login}>Login</button>
               </div>
             </form>
           </div>
         </div>
       );
-    } else {
+    }
+    else if (this.state.cargando){
+      return (<div>Cargando...</div>)
+    }
+    else {
+      console.log(this.state.user)
       return (
         <div>
           <header>
@@ -76,18 +121,18 @@ const App = props => {
               </li>
 
               <li id="nav-item">
-                <Link to={"/misDatos"} className="nav-link">
+                <Link to={"/misDatos/" + this.state.user.idRol} className="nav-link">
                   Mis Datos
                 </Link>
               </li>
 
               <li id="nav-item">
                 <a
-                  onClick={logout}
+                  onClick={this.logout}
                   className="nav-link"
                   style={{ cursor: "pointer" }}
                 >
-                  Logout {user.usuario}
+                  Logout {this.state.user.usuario}
                 </a>
               </li>
             </div>
@@ -99,34 +144,43 @@ const App = props => {
                 exact
                 path={["/", "/home"]}
                 render={(props) => (
-                  <Home {...props} user={user} />
+                  <Home {...props} user={this.state.user} />
                 )}
               />
-              {/* <Route
-                path="/misDatos"
-                render={(props) => (
-                  <MisDatos {...props} user={this.state.user} />
-                )}
-              /> */}
+              { <Route
+                exact
+                path="/misDatos/:id"
+                render={(props) => 
+                    (
+                      <MisDatos {...props} user={this.state.user} />
+                    )}
+              /> }
               <Route
                 exact
                 path="/campeonato/:id"
                 render={(props) => (
-                  <Campeonato {...props} user={user} />
+                  <Campeonato {...props} user={this.state.user} />
                 )}
               />
               <Route
                 exact
                 path="/partido/:id"
                 render={(props) => (
-                  <MostrarStats {...props} user={user} />
+                  <MostrarStats {...props} user={this.stateuser} />
                 )}
               />
             </Switch>
           </div>
+
+        <footer>
+          <br/>
+          <p>Campeonato Manager Copyright &copy; 2021 - Grupo 7</p>
+          <br/>
+        </footer>
         </div>
       );
     }
+  }
 }
 
 export default App;
