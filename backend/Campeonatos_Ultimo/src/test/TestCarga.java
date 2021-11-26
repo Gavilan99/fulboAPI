@@ -14,21 +14,15 @@ public class TestCarga {
 	@SuppressWarnings("deprecation")
 	public static void main(String[] args) throws ClubException, CampeonatoException, JugadorException, PartidoException, RepresentanteException {
 		// TODO Auto-generated method stub
-		//Controlador.getInstancia().crearCampeonato("Copa Libertadores",  new Date(58, 6, 2, 0, 0, 0), new Date(58, 6, 29, 0, 0, 0), "activo");
-		//Controlador.getInstancia().crearCampeonato("Copa America",  new Date(59, 6, 2, 0, 0, 0), new Date(59, 6, 29, 0, 0, 0), "activo");
-		//Controlador.getInstancia().crearCampeonato("Copa Europa",  new Date(60, 6, 2, 0, 0, 0), new Date(60, 6, 29, 0, 0, 0), "activo");
-		//Controlador.getInstancia().crearCampeonato("Copa Africa",  new Date(61, 6, 2, 0, 0, 0), new Date(61, 6, 29, 0, 0, 0), "activo");
+		Controlador.getInstancia().crearCampeonato("Copa Libertadores",  new Date(58, 6, 2, 0, 0, 0), new Date(58, 6, 29, 0, 0, 0), "activo");
+		Controlador.getInstancia().crearCampeonato("Copa America",  new Date(59, 6, 2, 0, 0, 0), new Date(59, 6, 29, 0, 0, 0), "activo");
+		Controlador.getInstancia().crearCampeonato("Copa Europa",  new Date(60, 6, 2, 0, 0, 0), new Date(60, 6, 29, 0, 0, 0), "activo");
+		Controlador.getInstancia().crearCampeonato("Copa Africa",  new Date(61, 6, 2, 0, 0, 0), new Date(61, 6, 29, 0, 0, 0), "activo");
 		
-		
-		//Controlador.getInstancia().modificarClub("Racing", "Avellaneda2");
-		//Controlador.getInstancia().modificarEstadoCampeonato(1, "activo");
-		
-		
-//		Controlador.getInstancia().DesinscribirClubACampeonato(1, 1);
-//		Controlador.getInstancia().DesinscribirClubACampeonato(2, 1);
-//		
-//		Controlador.getInstancia().InscribirClubACampeonato(1, 1);
-//		Controlador.getInstancia().InscribirClubACampeonato(2, 1);
+	
+		Controlador.getInstancia().InscribirClubACampeonato(1, 1);
+		Controlador.getInstancia().InscribirClubACampeonato(2, 1);
+		Controlador.getInstancia().crearPartidos(1, 90);
 		
 		
 		
@@ -57,8 +51,8 @@ public class TestCarga {
 		
 		//Controlador.getInstancia().habilitarJugador(1, 1, 1);
 		//Controlador.getInstancia().CargarGol(1, 9, 4, "a favor");
-		Controlador.getInstancia().validarResultado(1, 3, 'S');
-		Controlador.getInstancia().validarResultado(1, 2, 'S');
+		//Controlador.getInstancia().validarResultado(1, 3, 'S');
+		//Controlador.getInstancia().validarResultado(1, 2, 'S');
 		
 	}
 

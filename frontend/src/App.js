@@ -5,6 +5,7 @@ import Campeonato from "./componentes/campeonato";
 import Home from "./componentes/home.js"
 import MostrarStats from "./componentes/mostrarStats";
 import MisDatos from "./componentes/misDatos.js";
+import EditarGolesPartido from "./componentes/editarGolesPartido";
 
 class App extends React.Component {
   constructor(props){
@@ -48,6 +49,7 @@ class App extends React.Component {
          alert("Usuario o contraseña invalidos")
        }
        else{
+         console.log(datos);
         userDummy.usuario = datos.usuario;
         userDummy.contraseña = datos.contraseña;
         userDummy.id = datos.idRol;
@@ -162,7 +164,14 @@ class App extends React.Component {
                 exact
                 path="/partido/:id"
                 render={(props) => (
-                  <MostrarStats {...props} user={this.stateuser} />
+                  <MostrarStats {...props} user={this.state.user} />
+                )}
+              />
+              <Route
+                exact
+                path="/goles/:id"
+                render={(props) => (
+                  <EditarGolesPartido {...props} user={this.state.user} />
                 )}
               />
             </Switch>

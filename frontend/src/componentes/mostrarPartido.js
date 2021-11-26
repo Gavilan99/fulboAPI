@@ -15,6 +15,11 @@ function mostrarPartido(partido, index) {
                 <i class="fas fa-info-circle"></i>
             </Link>
         </td>
+        <td class="accesogoles">
+            <Link to={"/goles/" + partido.idPartido}>
+              <i class="fa-regular fa-futbol"></i>
+            </Link>
+        </td>
       </tr>
     );
   } else {
