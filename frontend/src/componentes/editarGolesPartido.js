@@ -49,8 +49,14 @@ class EditarGolesPartido extends React.Component{
                 <body>
                     <h1>Cargar Gol</h1>
                     <h3>Minuto: <input type= "text"/> </h3>
+                    <h3>Sentido</h3>
+                    <select>
+                        <option>{this.state.sentido[0]}</option>
+                        <option>{this.state.sentido[1]}</option>
+                    </select>
+
                     <br/>
-                    <button>Confirmar</button>
+                    <button onClick={this.agregarGol.bind(this)}>Confirmar</button>
                 </body>
             </div>
         )
