@@ -4,37 +4,73 @@ import "./estilos/estiloPagina.css";
 import Campeonato from "./componentes/campeonato";
 import Home from "./componentes/home.js"
 import MostrarStats from "./componentes/mostrarStats";
-import CrearCampeonato from "./componentes/crearCampeonato";
-import CrearCampeonatoClubes from "./componentes/crearCampeonatoClubes";
+import MisDatos from "./componentes/misDatos.js";
 
-const App = props => {
-
-  const initialUserState = {
-    usuario: "",
-    contraseña: "",
-    rol: "Administrador",
-    id: 1,
-    log: false,
-    idRol: "1" + "-" + "Administrador"
+class App extends React.Component {
+  constructor(props){
+    super(props)
+    this.state ={
+    user: {
+      usuario: "",
+      contraseña: "",
+      rol: "Jugador",
+      id: 0,
+      log: false,
+      idRol: ""
+    }, logueado: false
   }
 
-  const [user, setUser] = useState(initialUserState)
+  this.handleInputChange = this.handleInputChange.bind(this)
+  this.login = this.login.bind(this)
+  this.logout = this.logout.bind(this)
 
-  function handleInputChange(e) {
+}
+
+
+
+   handleInputChange(e) {
     const {name, value} = e.target
-    setUser({...user, [name]: value})
+    var userDummy = this.state.user
+    userDummy[name]= value
+    this.setState({user: userDummy})
   }
+
+
+
 
   /*crea funciones de login y logout*/
-  function login() {
-    setUser({...user, log: true})
-  }
+   login(e) {
+    e.preventDefault()
+    var userDummy = this.state.user
+     fetch("http://localhost:8080/login?usuario=" + this.state.user.usuario+"&contraseña=" + this.state.user.contraseña)
+     .then(response => response.json()).then(datos => {
+       if (datos.usuario === "invalido"){
+         alert("Usuario o contraseña invalidos")
+       }
+       else{
+        userDummy.usuario = datos.usuario;
+        userDummy.contraseña = datos.contraseña;
+        userDummy.id = datos.idRol;
+        userDummy.rol = datos.rol;
+        userDummy.idRol = datos.idRol.toString() + "-" + datos.rol;
+        userDummy.log=true;
+        console.log(userDummy);
+        this.setState({user: userDummy});
+       }
 
-  function logout() {
-    setUser({...user, log: false})
-  }
+     }).catch(e => console.log(e))
+   }
 
-  if (!user.log) {
+   logout() {
+    
+    var userDummy= this.state.user
+    userDummy.log=false
+    userDummy.usuario=""
+    userDummy.contraseña=""
+    this.setState({user: userDummy})
+  }
+  render(){
+  if (!this.state.user.log)   {
     return (
         <div>
           <h1>Campeonato Manager</h1>
@@ -46,8 +82,8 @@ const App = props => {
                 <input
                   type="text"
                   name="usuario"
-                  value={user.usuario}
-                  onChange={handleInputChange}
+                  
+                  onChange={this.handleInputChange}
                 ></input>
               </div>
               <div id="contraseña">
@@ -55,49 +91,53 @@ const App = props => {
                 <input
                   type="text"
                   name="contraseña"
-                  value={user.contraseña}
-                  onChange={handleInputChange}
+                  onChange={this.handleInputChange}
                 ></input>
               </div>
               <div id="boton-login">
-                <button onClick={login}>Login</button>
+                <button onClick={this.login}>Login</button>
               </div>
             </form>
           </div>
         </div>
       );
-    } else{
-      if (user.rol === "Jugador") {
-        return (
-          <div>
-            <header>
-              <h1>Campeonato Manager</h1>
-            </header>
-            <nav className="navbar navbar-expand navbar-dark " id="navbar">
-              <div className="navbar-nav mr-auto">
-                <li id="nav-item">
-                  <Link to={"/home"} className="nav-link">
-                    Home
-                  </Link>
-                </li>
+    }
+    else {
+      return (
+        <div>
+          <header>
+            <h1>Campeonato Manager</h1>
+          </header>
+          <nav className="navbar navbar-expand navbar-dark " id="navbar">
+            <div className="navbar-nav mr-auto">
+              <li id="nav-item">
+                <Link to={"/home"} className="nav-link">
+                  Home
+                </Link>
+              </li>
 
-                <li id="nav-item">
-                  <Link to={"/misDatos"} className="nav-link">
-                    Mis Datos
-                  </Link>
-                </li>
+              <li id="nav-item">
+                <Link to={"/misDatos/" + this.state.user.idRol} className="nav-link">
+                  Mis Datos
+                </Link>
+              </li>
+              <li id="nav-item">
+                <Link to={"/miClub/" + this.state.user.idRol} className="nav-link">
+                  Mi Club
+                </Link>
+              </li>
 
-                <li id="nav-item">
-                  <a
-                    onClick={logout}
-                    className="nav-link"
-                    style={{ cursor: "pointer" }}
-                  >
-                    Logout {user.usuario}
-                  </a>
-                </li>
-              </div>
-            </nav>
+              <li id="nav-item">
+                <a
+                  onClick={this.logout}
+                  className="nav-link"
+                  style={{ cursor: "pointer" }}
+                >
+                  Logout {this.state.user.usuario}
+                </a>
+              </li>
+            </div>
+          </nav>
 
             <div>
               <Switch>
@@ -136,78 +176,55 @@ const App = props => {
       else if (user.rol === "Administrador") {
         return (
           <div>
-            <header>
-              <h1>Campeonato Manager</h1>
-            </header>
-            <nav className="navbar navbar-expand navbar-dark " id="navbar">
-              <div className="navbar-nav mr-auto">
-                <li id="nav-item">
-                  <Link to={"/home"} className="nav-link">
-                    Home
-                  </Link>
-                </li>
-
-                <li id="nav-item">
-                  <Link to={"/crearCampeonato"} className="nav-link">
-                    Crear Campeonato
-                  </Link>
-                </li>
-
-                <li id="nav-item">
-                  <a
-                    onClick={logout}
-                    className="nav-link"
-                    style={{ cursor: "pointer" }}
-                  >
-                    Logout {user.usuario}
-                  </a>
-                </li>
-              </div>
-            </nav>
-
-            <div>
-              <Switch>
-                <Route
-                  exact
-                  path={["/", "/home"]}
-                  render={(props) => (
-                    <Home {...props} user={user} />
-                  )}
-                />
-                 <Route
-                  exact
-                  path="/crearCampeonato"
-                  render={(props) => (
-                    <CrearCampeonato {...props} user={user} />
-                  )}
-                />
-                <Route
-                  exact
-                  path="/crearCampeonatoClubes/:zonas"
-                  render={(props) => (
-                    <CrearCampeonatoClubes {...props} user={user} />
-                  )}
-                /> 
-                <Route
-                  exact
-                  path="/campeonato/:id"
-                  render={(props) => (
-                    <Campeonato {...props} user={user} />
-                  )}
-                />
-                <Route
-                  exact
-                  path="/partido/:id"
-                  render={(props) => (
-                    <MostrarStats {...props} user={user} />
-                  )}
-                />
-              </Switch>
-            </div>
+            <Switch>
+              <Route
+                exact
+                path={["/", "/home"]}
+                render={(props) => (
+                  <Home {...props} user={this.state.user} />
+                )}
+              />
+              { <Route
+                exact
+                path="/misDatos/:id"
+                render={(props) => 
+                    (
+                      <MisDatos {...props} user={this.state.user} />
+                    )}
+              /> }
+              <Route
+                exact
+                path="/campeonato/:id"
+                render={(props) => (
+                  <Campeonato {...props} user={this.state.user} />
+                )}
+              />
+              <Route
+                exact
+                path="/partido/:id"
+                render={(props) => (
+                  <MostrarStats {...props} user={this.state.user} />
+                )}
+              />
+              <Route
+                exact
+                path="/miclub/:id"
+                render={(props) => (
+                  <editarClub {...props} user={this.state.user} />
+                )}
+              />
+            </Switch>
           </div>
-        );
-      }
+
+        <footer>
+          <br/>
+          <p>Campeonato Manager Copyright &copy; 2021 - Grupo 7</p>
+          <br/>
+        </footer>
+        </div>
+      );
     }
+  }
 }
 
 export default App;
