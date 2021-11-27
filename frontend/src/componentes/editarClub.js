@@ -41,7 +41,7 @@ class editarClub extends React.Component{
         if(this.state.cargando){return(
             <div>
                 <h1>
-                    CARGANDO
+                    PRUEBO BRANCH
                 </h1>
             </div>
         )}else{
