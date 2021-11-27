@@ -11,7 +11,7 @@ class EditarGolesPartido extends React.Component{
             sentido:["a favor", "en contra"], //selectOption
             minuto:"",
             cargando:true,
-            inputSentido: "",
+            inputSentido: "a favor",
             inputJugador: "",
             inputMinuto: ""
         }
@@ -22,7 +22,13 @@ class EditarGolesPartido extends React.Component{
     componentDidMount(){
         fetch("http://localhost:8080/getJugadoresPartido?idPartido="+ this.state.idPartido)
         .then(response => response.json())
-        .then(data => {this.setState({jugadores: data});this.setState({cargando: false});console.log(data)})
+        .then(data => {
+            let jugadorC = {
+                idJugador: 0,
+                nombre: "SELECCIONAR",
+            }
+            data.splice(0,0,jugadorC)
+            this.setState({jugadores: data});this.setState({cargando: false});console.log(data)})
         .catch(e=> console.log(e))
     }
 
@@ -73,7 +79,7 @@ class EditarGolesPartido extends React.Component{
                         <h2>Minuto: <input type= "number" min="0" max="130" placeholder="0" onChange={this.onChangeSetMinuto.bind(this)}/> </h2>
                         <h2>Sentido: 
                             <select id="sentido" onChange={this.onChangeSetSentido.bind(this)}>
-                                <option >{this.state.sentido[0]}</option>
+                                <option>{this.state.sentido[0]}</option>
                                 <option>{this.state.sentido[1]}</option>
                             </select>
                         </h2>

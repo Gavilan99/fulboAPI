@@ -6,13 +6,13 @@ class EditarFaltasPartido extends React.Component{
     constructor(props){
         super(props);
         this.state ={
-            idPartido: props.match.params.id,
-            idCampeonato: props.match.params.campeonato,
+            idPartido: parseInt(props.match.params.id.split("-").at(0)),
+            idCampeonato: parseInt(props.match.params.id.split("-").at(1)),
             jugadores: [],
             tarjeta:["amarilla", "roja"], //selectOption
             minuto:"",
             cargando:true,
-            inputTipo: "",
+            inputTipo: "amarilla",
             inputJugador: "",
             inputMinuto: ""
         }
@@ -23,13 +23,18 @@ class EditarFaltasPartido extends React.Component{
     componentDidMount(){
         fetch("http://localhost:8080/getJugadoresPartido?idPartido="+ this.state.idPartido)
         .then(response => response.json())
-        .then(data => {this.setState({jugadores: data});this.setState({cargando: false});console.log(data)})
+        .then(data => {
+            let jugadorC = {
+                idJugador: 0,
+                nombre: "SELECCIONAR",
+            }
+            data.splice(0,0,jugadorC)
+            this.setState({jugadores: data});this.setState({cargando: false});console.log(data)})
         .catch(e=> console.log(e))
     }
 
     agregarFalta() {
         let falta={
-            jugador: this.state.inputJugador,
             minuto: this.state.inputMinuto,
             tipo: this.state.inputTipo
         }
@@ -40,9 +45,11 @@ class EditarFaltasPartido extends React.Component{
 
     onChangeSetTipo(e){
         this.setState({inputTipo: e.target.value})
+        console.log(e.target.value.length)
     }
     onChangeSetJugador(e){
         this.setState({inputJugador: e.target.value})
+        console.log(e.target.value)
 
     }
 
@@ -62,7 +69,7 @@ class EditarFaltasPartido extends React.Component{
             return(
                 <div>
                     <body>
-                        <h1>Cargar Gol</h1>
+                        <h1>Cargar Falta</h1>
                         <h2>
                             Jugador: 
                             <select id="jugador" onChange={this.onChangeSetJugador.bind(this)}>
@@ -74,7 +81,7 @@ class EditarFaltasPartido extends React.Component{
                         <h2>Minuto: <input type= "number" min="0" max="130" placeholder="0" onChange={this.onChangeSetMinuto.bind(this)}/> </h2>
                         <h2>Tarjeta: 
                             <select id="tarjeta" onChange={this.onChangeSetTipo.bind(this)}>
-                                <option >{this.state.tarjeta[0]}</option>
+                                <option>{this.state.tarjeta[0]}</option>
                                 <option>{this.state.tarjeta[1]}</option>
                             </select>
                         </h2>

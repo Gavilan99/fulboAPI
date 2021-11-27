@@ -21,8 +21,8 @@ function mostrarPartido(partido, index) {
             </Link>
         </td>
         <td class="accesoFaltas">
-            <Link to={"/faltas/" + partido.idPartido + "/"+ partido.campeonato}>
-            <i class="fa-solid fa-rectangle-vertical"></i>
+            <Link to={"/faltas/" + partido.idPartido + "-" + partido.campeonato}>
+            <i class="far fa-hand-paper"></i>
             </Link>
         </td>
         

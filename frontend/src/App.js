@@ -6,6 +6,7 @@ import Home from "./componentes/home.js"
 import MostrarStats from "./componentes/mostrarStats";
 import MisDatos from "./componentes/misDatos.js";
 import EditarGolesPartido from "./componentes/editarGolesPartido";
+import EditarFaltasPartido from "./componentes/editarFaltasPartido";
 
 class App extends React.Component {
   constructor(props){
@@ -176,9 +177,9 @@ class App extends React.Component {
               />
               <Route
                 exact
-                path="/faltas/:id/:campeonato"
+                path="/faltas/:id"
                 render={(props) => (
-                  <EditarGolesPartido {...props} user={this.state.user} />
+                  <EditarFaltasPartido {...props} user={this.state.user} />
                 )}
               />
             </Switch>
