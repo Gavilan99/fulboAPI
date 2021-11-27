@@ -270,7 +270,8 @@ public class RestController {
 	@PutMapping("/updateClub")
 	public void updateClub(@RequestBody ClubView club) { //ANDO
 		try {
-			Controlador.getInstancia().modificarClub(club.getNombre(), club.getDireccion());
+			System.out.println("KACHO");
+			Controlador.getInstancia().modificarClub(club.getIdClub(), club.getDireccion());
 		} catch (ClubException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

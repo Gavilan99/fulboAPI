@@ -60,8 +60,8 @@ public class Controlador {
 	 * -En la segunda parate del trabajo deber'an agragar los metodos y controles que 
 	 *  considen necesarios. */
 	
-	public void modificarClub(String nombre, String direccion) throws ClubException { 
-		Club aux = ClubDAO.getInstancia().ObtenerClubPorNombre(nombre);
+	public void modificarClub(Integer id, String direccion) throws ClubException { 
+		Club aux = ClubDAO.getInstancia().ObtenerClubPorId(id);
 		aux.setDireccion(direccion);
 	}
 	

@@ -7,6 +7,7 @@ import MostrarStats from "./componentes/mostrarStats";
 import MisDatos from "./componentes/misDatos.js";
 import EditarGolesPartido from "./componentes/editarGolesPartido";
 import EditarFaltasPartido from "./componentes/editarFaltasPartido";
+import EditarClub from "./componentes/editarClub";
 
 class App extends React.Component {
   constructor(props){
@@ -18,7 +19,8 @@ class App extends React.Component {
       rol: "Jugador",
       id: 0,
       log: false,
-      idRol: ""
+      idRol: "",
+      club: []
     }, logueado: false
   }
 
@@ -106,6 +108,7 @@ class App extends React.Component {
       );
     }
     else {
+      console.log(this.state.user.club)
       return (
         <div>
           <header>
@@ -122,6 +125,12 @@ class App extends React.Component {
               <li id="nav-item">
                 <Link to={"/misDatos/" + this.state.user.idRol} className="nav-link">
                   Mis Datos
+                </Link>
+              </li>
+
+              <li id="nav-item">
+                <Link to={"/miClub/" + this.state.user.id} className="nav-link">
+                  Mi Club
                 </Link>
               </li>
 
@@ -182,6 +191,14 @@ class App extends React.Component {
                   <EditarFaltasPartido {...props} user={this.state.user} />
                 )}
               />
+              {<Route
+                exact
+                path="/miClub/:id"
+                render={(props) => 
+                    (
+                      <EditarClub {...props} user={this.state.user} />
+                    )}
+              /> }
             </Switch>
           </div>
 
