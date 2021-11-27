@@ -8,6 +8,7 @@ import MisDatos from "./componentes/misDatos.js";
 import EditarGolesPartido from "./componentes/editarGolesPartido";
 import EditarFaltasPartido from "./componentes/editarFaltasPartido";
 import EditarClub from "./componentes/editarClub";
+import AgregarJugadorPartido from "./componentes/agregarJugadorPartido";
 
 class App extends React.Component {
   constructor(props){
@@ -19,8 +20,7 @@ class App extends React.Component {
       rol: "Jugador",
       id: 0,
       log: false,
-      idRol: "",
-      club: []
+      idRol: ""
     }, logueado: false
   }
 
@@ -197,6 +197,14 @@ class App extends React.Component {
                 render={(props) => 
                     (
                       <EditarClub {...props} user={this.state.user} />
+                    )}
+              /> }
+              {<Route
+                exact
+                path="/cargaMiembros/:partidoClub"
+                render={(props) => 
+                    (
+                      <AgregarJugadorPartido {...props} user={this.state.user} />
                     )}
               /> }
             </Switch>

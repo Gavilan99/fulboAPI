@@ -1,6 +1,7 @@
 import {Link} from "react-router-dom";
 
-function mostrarPartido(partido, index) {
+function mostrarPartido(partido, index, user) {
+  const {id, rol} = user.idRol.split("-")
   if (index % 2 === 0) {
     return (
       <tr class="fpar">
@@ -25,7 +26,11 @@ function mostrarPartido(partido, index) {
             <i class="far fa-hand-paper"></i>
             </Link>
         </td>
-        
+        <td class="accesoCargaMiembro">
+            <Link to={"/cargaMiembros/" + partido.idPartido}>
+            <i class="fas fa-user-plus"></i>
+            </Link>
+        </td>
       </tr>
     );
   } else {
@@ -48,8 +53,13 @@ function mostrarPartido(partido, index) {
             </Link>
         </td>
         <td class="accesoFaltas">
-            <Link to={"/faltas/" + partido.idPartido + "/"+ partido.campeonato}>
-            <i class="fa-solid fa-rectangle-vertical"></i>
+            <Link to={"/faltas/" + partido.idPartido + "-"+ partido.campeonato}>
+            <i class="far fa-hand-paper"></i>
+            </Link>
+        </td>
+        <td class="accesoCargaMiembro">
+            <Link to={"/cargaMiembros/" + partido.idPartido}>
+            <i class="fas fa-user-plus"></i>
             </Link>
         </td>
     </tr>

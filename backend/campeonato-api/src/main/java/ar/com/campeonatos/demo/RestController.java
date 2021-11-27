@@ -494,4 +494,16 @@ public class RestController {
 	public List<JugadorView> getJugadoresPartido(@RequestParam (name = "idPartido") Integer idPartido){
 		return Controlador.getInstancia().obtenerJugadoresPartido(idPartido);
 	}
+	
+	@CrossOrigin(origins = "http://localhost:3000")
+	@GetMapping("/getJugadoresClubNoEnPartido")
+	public List<JugadorView> getJugadoresClubNoEnPartido(@RequestParam (name = "idPartido") Integer idPartido, @RequestParam (name = "idClub") Integer idClub){
+		try {
+			return Controlador.getInstancia().obtenerJugadoresClubNoEnPartido(idPartido, idClub);
+		} catch (ClubException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return new ArrayList<JugadorView>();
+		}
+	}
 }

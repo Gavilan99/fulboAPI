@@ -16,6 +16,7 @@ class Campeonato extends React.Component {
       cantFechas: [],
       fechaActual: 1,
       cargando: true,
+      user: props.user
     };
   }
   //id (int), descripcion (str), fechaInicio (Date), fechaFin (Date), estado (str), clubes (array de json)
@@ -103,6 +104,7 @@ class Campeonato extends React.Component {
   }
 
   render() {
+    console.log(this.state.user)
     if (this.state.cargando) {
       return (
         <div>
@@ -134,7 +136,7 @@ class Campeonato extends React.Component {
                   {this.state.partidos
                   .filter((partido) => partido.nroFecha === this.state.fechaActual)
                   .map((part, index) => 
-                    mostrarPartido(part, index)
+                    mostrarPartido(part, index, this.state.user)
                   )}
                 </tbody>
             </table>
