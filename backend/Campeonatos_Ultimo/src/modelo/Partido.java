@@ -44,13 +44,14 @@ public class Partido {
 	@Temporal(value = TemporalType.DATE)
 	private Date fechaPartido;
 	@Column(name = "validadoLocal")
-	private char convalidaLocal;
+	private Character convalidaLocal;
 	@Column(name = "validadoVisitante")
-	private char convalidaVisitante;
+	private Character convalidaVisitante;
 	@ManyToOne()
 	@LazyCollection(LazyCollectionOption.FALSE)
 	@JoinColumn(name = "idCampeonato")
 	private Campeonato campeonato;
+	private Character terminado;
 	@OneToMany(mappedBy = "partido", cascade = CascadeType.ALL)
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Miembro> jugadoresLocales;
@@ -71,6 +72,7 @@ public class Partido {
 		this.convalidaLocal = 'N';
 		this.convalidaVisitante = 'N';
 		this.campeonato = campeonato;
+		this.terminado = 'N';
 		jugadoresLocales = new ArrayList<Miembro>();
 		jugadoresVisitantes = new ArrayList<Miembro>();
 	}
@@ -88,6 +90,7 @@ public class Partido {
 	this.convalidaLocal = 'N';
 	this.convalidaVisitante = 'N';
 	this.campeonato = campeonato;
+	this.terminado = 'N';
 	jugadoresLocales = new ArrayList<Miembro>();
 	jugadoresVisitantes = new ArrayList<Miembro>();
 }
@@ -105,6 +108,7 @@ public class Partido {
 	this.convalidaLocal = 'N';
 	this.convalidaVisitante = 'N';
 	this.campeonato = campeonato;
+	this.terminado = 'N';
 	jugadoresLocales = new ArrayList<Miembro>();
 	jugadoresVisitantes = new ArrayList<Miembro>();
 }
@@ -157,11 +161,11 @@ public class Partido {
 		return fechaPartido;
 	}
 
-	public char getConvalidaLocal() {
+	public Character getConvalidaLocal() {
 		return convalidaLocal;
 	}
 
-	public char getConvalidaVisitante() {
+	public Character getConvalidaVisitante() {
 		return convalidaVisitante;
 	}
 	
@@ -185,6 +189,15 @@ public class Partido {
 
 	public List<Miembro> getJugadoresVisitantes() {
 		return jugadoresVisitantes;
+	}
+
+	public Character getTerminado() {
+		return terminado;
+	}
+
+	public void setTerminado(Character terminado) {
+		this.terminado = terminado;
+		this.actualizar();
 	}
 
 	public void setNroFecha(int nroFecha) {
@@ -217,12 +230,12 @@ public class Partido {
 		this.actualizar();
 	}
 
-	public void setConvalidaLocal(char local) {
+	public void setConvalidaLocal(Character local) {
 		this.convalidaLocal = local;
 		this.actualizar();
 	}
 
-	public void setConvalidaVisitante(char visitante) {
+	public void setConvalidaVisitante(Character visitante) {
 		this.convalidaVisitante = visitante;
 		this.actualizar();
 	}
@@ -274,7 +287,7 @@ public class Partido {
 		for (Miembro jv: jugadoresVisitantes) {
 			jvv.add(jv.toView());
 		}
-		PartidoView pv = new PartidoView(nroFecha, nroZona, categoria, golesLocal, golesVisitante, fechaPartido, convalidaLocal, convalidaVisitante, clubLocal.toView(), clubVisitante.toView(), jlv, jvv, campeonato.getIdCampeonato());
+		PartidoView pv = new PartidoView(nroFecha, nroZona, categoria, golesLocal, golesVisitante, fechaPartido, convalidaLocal, convalidaVisitante, clubLocal.toView(), clubVisitante.toView(), jlv, jvv, campeonato.getIdCampeonato(), terminado);
 		pv.setIdPartido(idPartido);
 		return pv;
 	}

@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from "react"
+import filaTablaJugadores from "./filaTablaJugadores"
 
 class editarClub extends React.Component{
     constructor(props){
@@ -15,11 +16,15 @@ class editarClub extends React.Component{
     }
 
     cambiarDatos() {
-        if (this.nuevoNombre != "")
+        if (this.nuevoNombre != ""){
             this.setState({club: {nombre: this.nuevoNombre}})
-        if(this.nuevaDireccion != "")
+            this.setState({editingName: false})
+        }
+        if(this.nuevaDireccion != "") {
             this.setState({club: {direccion: this.nuevaDireccion}})
-        fetch("http://localhost:8080/updateClub",{method:"PUT", body: JSON.stringify(club)})
+            this.setState({editingAdress: false})
+        }
+        fetch("http://localhost:8080/updateClub",{method:"PUT", body: JSON.stringify(this.state.club)})
     }
 
     componentDidMount(){
@@ -63,7 +68,7 @@ class editarClub extends React.Component{
                                         this.nuevoNombre = node;
                                     }}
                                 />
-                                <button onClick = {() => {this.cambiarDatos ; this.setState({editingName: false})}}> OK </button>
+                                <button onClick = {() => this.cambiarDatos}> OK </button>
                             </div>
 
                         )}
@@ -82,7 +87,7 @@ class editarClub extends React.Component{
                                         this.nuevaDireccion = node;
                                     }}
                                 />
-                                <button onClick = {() => {this.cambiarDatos ; this.setState({editingAdress: false})}}> OK </button>
+                                <button onClick = {() => this.cambiarDatos}> OK </button>
                             </div>
                         )}
                         <button onClick="">AÑADIR JUGADOR</button> 

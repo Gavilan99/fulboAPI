@@ -9,6 +9,7 @@ class Campeonato extends React.Component {
     super(props);
     console.log("id: " + props.match.params.id);
     this.state = {
+      user: props.user,
       idCampeonato: props.match.params.id,
       campeonato: null,
       tabla: [],
@@ -113,7 +114,9 @@ class Campeonato extends React.Component {
       return (
         <div>
           <div class="titulo">{this.state.campeonato.descripcion}</div>
-          <div class="estado">{this.state.campeonato.estado} <button onClick={() => {this.cambiarEstado()}}>Editar Campeonato</button></div> 
+          {this.state.user.rol === "Administrador" ? (
+            <div id="estado">{this.state.campeonato.estado} <button onClick={() => {this.cambiarEstado()}}>Editar Campeonato</button></div>
+          ) : (<div></div>)}
           <div class="tablas">
             {tabla(this.state.campeonato, this.state.tabla, 0)}
           </div>
@@ -145,7 +148,9 @@ class Campeonato extends React.Component {
       return (
         <div>
           <div class="titulo">{this.state.campeonato.descripcion}</div>
-          <div class="estado">{this.state.campeonato.estado} <button onClick={() => {this.cambiarEstado()}}>Editar Campeonato</button></div>
+          {this.state.user.rol === "Administrador" ? (
+            <div id="estado">{this.state.campeonato.estado} <button onClick={() => {this.cambiarEstado()}}>Editar Campeonato</button></div>
+          ) : (<div></div>)}
           <div class="tablas">
             {this.state.tabla.map((zona, index) =>
               tabla(this.state.campeonato, zona, index + 1)

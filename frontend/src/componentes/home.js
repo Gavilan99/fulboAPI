@@ -35,7 +35,17 @@ class Home extends React.Component {
             });
             console.log(this.state.campeonatos)
         }
-
+        else if (this.state.user.rol === "Representante") {
+            fetch("http://localhost:8080/getCampeonatosRepresentante?idRepresentante=" + this.state.user.id) 
+            .then((response) => response.json())
+            .then((campeonatosJSON) => {
+            this.setState({ campeonatos: campeonatosJSON, cargando: false })
+            })
+            .catch((error) => {
+            console.log(`Hay un error en la llamada: ${error}`);
+            });
+            console.log(this.state.campeonatos)
+        }
     }
 
     render() {
@@ -46,27 +56,7 @@ class Home extends React.Component {
                 </div>
               );
         }
-        else if (this.state.user.rol === "Jugador") {
-            return (
-                <div>
-                    <h2>Mis Campeonatos</h2>
-                    <div class="container">
-                        {this.state.campeonatos.map(camp => {
-                            return (
-                            <Link to={"/campeonato/" + camp.idCampeonato}>
-                                <div class = "rect-campeonato">
-                                    <h4>{camp.descripcion}</h4>
-                                </div>
-                            </Link>
-                            )
-                        })}
-                    </div>
-                    <br/>
-                    <br/>
-                </div>
-            )
-        }
-        else if (this.state.user.rol === "Administrador") {
+        else {
             return (
                 <div>
                     <h2>Mis Campeonatos</h2>

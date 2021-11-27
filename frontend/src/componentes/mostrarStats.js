@@ -7,6 +7,7 @@ class MostrarStats extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
+            user: props.user,
             idPartido: props.match.params.id,
             partido: null,
             datosJugadoresL: [],
@@ -15,12 +16,36 @@ class MostrarStats extends React.Component {
         }
     }
 
+    convalidar() {
+        fetch("http://localhost:8080/validarResultado?idPartido=" + this.state.idPartido + "&idRepresentante=" + this.state.user.id + "&validacion=S", {method:"PUT", mode: 'cors', headers: {'Content-Type': 'application/json'}})
+        .then(() => {
+            alert("Validado Correctamente!")
+            let boton = document.getElementById("botonConvalidar")
+            boton.style.display = "none"
+        })
+        .catch(e => console.log(e))
+    }
+
     componentDidMount() {
         fetch("http://localhost:8080/getPartido?idPartido=" + parseInt(this.state.idPartido))
         .then((response) => response.json())
         .then((part) => {
             console.log(part)
             this.setState({partido: part})
+            if (this.state.user.rol === "Representante" && this.state.partido.terminado === 'S') {
+                fetch("http://localhost:8080/getRepresentante?idRepresentante=" + this.state.user.id)
+                .then((vuelta) => vuelta.json())
+                .then((rep) => {
+                    if ((rep.club.idClub != this.state.partido.clubLocal.idClub && rep.club.idClub != this.state.partido.clubVisitante.idClub) || (rep.club.idClub === this.state.partido.clubLocal.idClub && this.state.partido.convalidaLocal === "S") || (rep.club.idClub === this.state.partido.clubVisitante.idClub && this.state.partido.convalidaVisitante === "S")) {
+                        let boton = document.getElementById("botonConvalidar")
+                        boton.style.display = "none"
+                    }
+                })
+            }
+            else if (this.state.user.rol === "Representante"){
+                let boton = document.getElementById("botonConvalidar")
+                boton.style.display = "none"
+            }
             console.log(this.state.partido.jugadoresLocales)
             this.state.partido.jugadoresLocales.map(miembro => 
                 fetch("http://localhost:8080/getDatoPartidoJugador?idPartido=" + parseInt(this.state.idPartido) + "&idJugador=" + parseInt(miembro.jugador))
@@ -120,6 +145,11 @@ class MostrarStats extends React.Component {
                             {this.state.datosJugadoresV.map((datoJ) => mostrarDatoPartido(datoJ))}
                         </div>
                     </div>
+                    {this.state.user.rol === "Representante" ? (
+                        <div id="botonConvalidar" onClick={this.convalidar.bind(this)}>
+                            <h4>CONVALIDAR</h4>
+                        </div>
+                    ) : (<div></div>)}
                     <div class = "botonVolver">
                         <Link to={"/campeonato/" + this.state.partido.campeonato}>
                             <div>

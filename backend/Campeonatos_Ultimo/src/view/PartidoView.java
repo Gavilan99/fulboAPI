@@ -17,8 +17,9 @@ public class PartidoView implements Serializable {
 	private ClubView clubLocal;
 	private ClubView clubVisitante;
 	private Integer campeonato;
+	private Character terminado;
 	
-	public PartidoView(Integer nroFecha, Integer nroZona, Integer categoria, Integer golesLocal, Integer golesVisitante, Date fechaPartido, char convalidaLocal, char convalidaVisitante, ClubView clubLocal, ClubView clubVisitante, List<MiembroView> jugadoresLocales, List<MiembroView> jugadoresVisitantes, Integer campeonato) {
+	public PartidoView(Integer nroFecha, Integer nroZona, Integer categoria, Integer golesLocal, Integer golesVisitante, Date fechaPartido, Character convalidaLocal, Character convalidaVisitante, ClubView clubLocal, ClubView clubVisitante, List<MiembroView> jugadoresLocales, List<MiembroView> jugadoresVisitantes, Integer campeonato, Character terminado) {
 		this.nroFecha = nroFecha;
 		this.nroZona = nroZona;
 		this.categoria = categoria;
@@ -32,6 +33,7 @@ public class PartidoView implements Serializable {
 		this.jugadoresLocales = jugadoresLocales;
 		this.jugadoresVisitantes = jugadoresVisitantes;
 		this.campeonato = campeonato;
+		this.terminado = terminado;
 	}
 	
 	public PartidoView() {}
@@ -85,24 +87,21 @@ public class PartidoView implements Serializable {
 	public void setFechaPartido(Date fechaPartido) {
 		this.fechaPartido = fechaPartido;
 	}
-	public char getConvalidaLocal() {
-		return convalidaLocal;
-	}
-	public void setConvalidaLocal(char convalidaLocal) {
-		this.convalidaLocal = convalidaLocal;
-	}
-	public char getConvalidaVisitante() {
-		return convalidaVisitante;
-	}
-	public void setConvalidaVisitante(char convalidaVisitante) {
-		this.convalidaVisitante = convalidaVisitante;
-	}
+	
 	public Integer getCampeonato() {
 		return campeonato;
 	}
 
 	public void setCampeonato(Integer campeonato) {
 		this.campeonato = campeonato;
+	}
+
+	public Character getTerminado() {
+		return terminado;
+	}
+
+	public void setTerminado(Character terminado) {
+		this.terminado = terminado;
 	}
 
 	public ClubView getClubLocal() {
@@ -119,6 +118,22 @@ public class PartidoView implements Serializable {
 	public void setClubVisitante(ClubView clubVisitante) {
 		this.clubVisitante = clubVisitante;
 	}
+	public Character getConvalidaLocal() {
+		return convalidaLocal;
+	}
+
+	public void setConvalidaLocal(Character convalidaLocal) {
+		this.convalidaLocal = convalidaLocal;
+	}
+
+	public Character getConvalidaVisitante() {
+		return convalidaVisitante;
+	}
+
+	public void setConvalidaVisitante(Character convalidaVisitante) {
+		this.convalidaVisitante = convalidaVisitante;
+	}
+
 	public List<MiembroView> getJugadoresLocales() {
 		return jugadoresLocales;
 	}
@@ -137,8 +152,8 @@ public class PartidoView implements Serializable {
 	private Integer golesLocal;
 	private Integer golesVisitante;
 	private Date fechaPartido;
-	private char convalidaLocal;
-	private char convalidaVisitante;
+	private Character convalidaLocal;
+	private Character convalidaVisitante;
 	private List<MiembroView> jugadoresLocales;
 	private List<MiembroView> jugadoresVisitantes;
 }

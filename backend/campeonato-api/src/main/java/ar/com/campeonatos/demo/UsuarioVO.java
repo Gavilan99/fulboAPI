@@ -20,7 +20,9 @@ public class UsuarioVO implements Serializable{
 		this.idRol = idRol;
 	}
 	
-	public UsuarioVO() {}
+	public UsuarioVO() {
+		this.usuario = "invalido";
+	}
 	
 	public Integer getIdRol() {
 		return idRol;

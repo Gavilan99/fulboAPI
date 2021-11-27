@@ -1,7 +1,7 @@
 import React from "react";
 import "../estilos/estiloPagina.css";
 
-function filaTabla(fila) {
+function filaTablaJugadores(fila) {
       return (
         <tr>
           <td>{fila[3]}</td>                         
@@ -17,3 +17,5 @@ function filaTabla(fila) {
         </tr>
       );
     }
+
+export default filaTablaJugadores;

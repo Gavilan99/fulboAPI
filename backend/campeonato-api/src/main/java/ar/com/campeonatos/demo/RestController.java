@@ -77,6 +77,18 @@ public class RestController {
 			return null;
 		}
 	}
+	
+	@CrossOrigin(origins = "http://localhost:3000")
+	@GetMapping("/getCampeonatosRepresentante")
+	public List<CampeonatoView> getCampeonatosRepresentante(@RequestParam(name="idRepresentante") Integer idRepresentante) { //ANDO
+		try {
+			return Controlador.getInstancia().ObtenerCampeonatosDelRepresentante(idRepresentante);
+		} catch (RepresentanteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
 
 	@CrossOrigin(origins = "http://localhost:3000")
 	@PostMapping("/addCampeonato")
@@ -154,6 +166,17 @@ public class RestController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (JugadorException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	@CrossOrigin(origins = "http://localhost:3000")
+	@PutMapping("/terminarPartido")
+	public void terminarPartido(@RequestParam (name="idPartido") Integer idPartido) {
+		try {
+			Controlador.getInstancia().terminarPartido(idPartido);
+		} catch (PartidoException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

@@ -1,6 +1,6 @@
 import {Link} from "react-router-dom";
 
-function mostrarPartido(partido, index) {
+function mostrarPartido(partido, index, id) {
   if (index % 2 === 0) {
     return (
       <tr class="fpar">

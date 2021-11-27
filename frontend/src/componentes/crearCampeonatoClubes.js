@@ -96,6 +96,9 @@ class CrearCampeonatoClubes extends React.Component {
             console.log(this.state.participantes)
             console.log(participantesDummy)
         }
+        else if (this.state.cantZonas === 0) {
+            this.setState({participantes: []})
+        }
         if (this.state.cargando) {
             fetch("http://localhost:8080/getCampeonatos")
             .then((response) => response.json())

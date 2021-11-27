@@ -1,12 +1,16 @@
 import React, {useState} from "react";
-import { Switch, Route, Link, Router } from "react-router-dom";
+import { Switch, Route, Link, Router, withRouter } from "react-router-dom";
 import "./estilos/estiloPagina.css";
 import Campeonato from "./componentes/campeonato";
 import Home from "./componentes/home.js"
 import MostrarStats from "./componentes/mostrarStats";
 import MisDatos from "./componentes/misDatos.js";
+import CrearCampeonato from "./componentes/crearCampeonato"
+import CrearCampeonatoClubes from "./componentes/crearCampeonatoClubes";
+import editarClub from "./componentes/editarClub";
 
 class App extends React.Component {
+
   constructor(props){
     super(props)
     this.state ={
@@ -68,6 +72,7 @@ class App extends React.Component {
     userDummy.usuario=""
     userDummy.contraseña=""
     this.setState({user: userDummy})
+    this.props.history.push("/home")
   }
   render(){
   if (!this.state.user.log)   {
@@ -102,6 +107,158 @@ class App extends React.Component {
         </div>
       );
     }
+    else if (this.state.user.rol === "Administrador") {
+      return (
+        <div>
+          <header>
+            <h1>Campeonato Manager</h1>
+          </header>
+          <nav className="navbar navbar-expand navbar-dark " id="navbar">
+            <div className="navbar-nav mr-auto">
+              <li id="nav-item">
+                <Link to={"/home"} className="nav-link">
+                  Home
+                </Link>
+              </li>
+
+              <li id="nav-item">
+                  <Link to={"/crearCampeonato"} className="nav-link">
+                    Crear Campeonato
+                  </Link>
+              </li>
+
+              <li id="nav-item">
+                <a
+                  onClick={this.logout}
+                  className="nav-link"
+                  style={{ cursor: "pointer" }}
+                >
+                  Logout {this.state.user.usuario}
+                </a>
+              </li>
+            </div>
+          </nav>
+          <div>
+          <Switch>
+                <Route
+                  exact
+                  path={["/", "/home"]}
+                  render={(props) => (
+                    <Home {...props} user={this.state.user} />
+                  )}
+                />
+                 <Route
+                  exact
+                  path="/crearCampeonato"
+                  render={(props) => (
+                    <CrearCampeonato {...props} user={this.state.user} />
+                  )}
+                />
+                <Route
+                  exact
+                  path="/crearCampeonatoClubes/:zonas"
+                  render={(props) => (
+                    <CrearCampeonatoClubes {...props} user={this.state.user} />
+                  )}
+                /> 
+                <Route
+                  exact
+                  path="/campeonato/:id"
+                  render={(props) => (
+                    <Campeonato {...props} user={this.state.user} />
+                  )}
+                />
+                <Route
+                  exact
+                  path="/partido/:id"
+                  render={(props) => (
+                    <MostrarStats {...props} user={this.state.user} />
+                  )}
+                />
+              </Switch>
+          </div>
+        </div>
+    );
+  }
+  else if (this.state.user.rol === "Representante") {
+    return (
+      <div>
+        <header>
+          <h1>Campeonato Manager</h1>
+        </header>
+        <nav className="navbar navbar-expand navbar-dark " id="navbar">
+          <div className="navbar-nav mr-auto">
+            <li id="nav-item">
+              <Link to={"/home"} className="nav-link">
+                Home
+              </Link>
+            </li>
+
+            <li id="nav-item">
+              <Link to={"/misDatos/" + this.state.user.idRol} className="nav-link">
+                Mis Datos
+              </Link>
+            </li>
+            <li id="nav-item">
+              <Link to={"/miClub/" + this.state.user.idRol} className="nav-link">
+                Mi Club
+              </Link>
+            </li>
+
+            <li id="nav-item">
+              <a
+                onClick={this.logout}
+                className="nav-link"
+                style={{ cursor: "pointer" }}
+              >
+                Logout {this.state.user.usuario}
+              </a>
+            </li>
+          </div>
+        </nav>
+
+          <div>
+            <Switch>
+              <Route
+                exact
+                path={["/", "/home"]}
+                render={(props) => (
+                  <Home {...props} user={this.state.user} />
+                )}
+              />
+               <Route
+                exact
+                path="/misDatos/:id"
+                render={(props) => (
+                  <MisDatos {...props} user={this.state.user} />
+                )}
+              />
+              <Route
+                exact
+                path="/miClub/:id"
+                render={(props) => (
+                  <editarClub {...props} user={this.state.user} />
+                )}
+              /> 
+              <Route
+                exact
+                path="/campeonato/:id"
+                render={(props) => (
+                  <Campeonato {...props} user={this.state.user} />
+                )}
+              />
+              <Route
+                exact
+                path="/partido/:id"
+                render={(props) => (
+                  <MostrarStats {...props} user={this.state.user} />
+                )}
+              />
+            </Switch>
+          </div>
+        </div>
+      );
+  }
     else {
       return (
         <div>
@@ -145,27 +302,27 @@ class App extends React.Component {
                   exact
                   path={["/", "/home"]}
                   render={(props) => (
-                    <Home {...props} user={user} />
+                    <Home {...props} user={this.state.user} />
                   )}
                 />
-                {/* <Route
-                  path="/misDatos"
+                 <Route
+                  path="/misDatos/:id"
                   render={(props) => (
                     <MisDatos {...props} user={this.state.user} />
                   )}
-                /> */}
+                /> 
                 <Route
                   exact
                   path="/campeonato/:id"
                   render={(props) => (
-                    <Campeonato {...props} user={user} />
+                    <Campeonato {...props} user={this.state.user} />
                   )}
                 />
                 <Route
                   exact
                   path="/partido/:id"
                   render={(props) => (
-                    <MostrarStats {...props} user={user} />
+                    <MostrarStats {...props} user={this.state.user} />
                   )}
                 />
               </Switch>
@@ -173,58 +330,7 @@ class App extends React.Component {
           </div>
         );
       }
-      else if (user.rol === "Administrador") {
-        return (
-          <div>
-            <Switch>
-              <Route
-                exact
-                path={["/", "/home"]}
-                render={(props) => (
-                  <Home {...props} user={this.state.user} />
-                )}
-              />
-              { <Route
-                exact
-                path="/misDatos/:id"
-                render={(props) => 
-                    (
-                      <MisDatos {...props} user={this.state.user} />
-                    )}
-              /> }
-              <Route
-                exact
-                path="/campeonato/:id"
-                render={(props) => (
-                  <Campeonato {...props} user={this.state.user} />
-                )}
-              />
-              <Route
-                exact
-                path="/partido/:id"
-                render={(props) => (
-                  <MostrarStats {...props} user={this.state.user} />
-                )}
-              />
-              <Route
-                exact
-                path="/miclub/:id"
-                render={(props) => (
-                  <editarClub {...props} user={this.state.user} />
-                )}
-              />
-            </Switch>
-          </div>
-
-        <footer>
-          <br/>
-          <p>Campeonato Manager Copyright &copy; 2021 - Grupo 7</p>
-          <br/>
-        </footer>
-        </div>
-      );
-    }
   }
 }
 
-export default App;
+export default withRouter(App);

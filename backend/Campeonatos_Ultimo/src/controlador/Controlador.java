@@ -262,6 +262,15 @@ public class Controlador {
 		return campsView;
 	}
 	
+	public List<CampeonatoView> ObtenerCampeonatosDelRepresentante(int idRepresentante) throws RepresentanteException{
+		List<CampeonatoView> campsView = new ArrayList<CampeonatoView>();
+		List<Campeonato> camps = RepresentanteDAO.getInstancia().ObtenerRepresentantePorId(idRepresentante).getClub().getParticipaciones();
+		for (Campeonato c: camps) {
+			campsView.add(c.toView());
+		}
+		return campsView;
+	}
+	
 	public void crearPartidoEliminatorias(int categoria, int idClubLocal, int idClubVisitante, Date fechaPartido, int idCampeonato) throws ClubException, CampeonatoException {
 		if (this.validarPartido(fechaPartido, idClubLocal, idClubVisitante)) { //valido que un equipo no juegue 2 partidos en la misma fecha
 			Partido p = new Partido(categoria, ClubDAO.getInstancia().ObtenerClubPorId(idClubLocal), ClubDAO.getInstancia().ObtenerClubPorId(idClubVisitante), fechaPartido, CampeonatoDAO.getInstancia().ObtenerCampeonatoPorId(idCampeonato));
@@ -448,6 +457,11 @@ public class Controlador {
 		Campeonato c = CampeonatoDAO.getInstancia().ObtenerCampeonatoPorId(idCampeonato);
 		Falta f = new Falta(j, p, c, minuto, tipo);
 		j.agregarFalta(f);
+	}
+	
+	public void terminarPartido(Integer idPartido) throws PartidoException {
+		Partido p = PartidoDAO.getInstancia().ObtenerPartidoPorId(idPartido.intValue());
+		p.setTerminado('S');
 	}
 	
 	private void cargarEstadisticasPartido(int idPartido) throws CampeonatoException, PartidoException {
