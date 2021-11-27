@@ -2,16 +2,17 @@ import React, {useState, useEffect} from "react"
 import "../estilos/dropdown.css";
 
 
-class EditarGolesPartido extends React.Component{
+class EditarFaltasPartido extends React.Component{
     constructor(props){
         super(props);
         this.state ={
             idPartido: props.match.params.id,
+            idCampeonato: props.match.params.campeonato,
             jugadores: [],
-            sentido:["a favor", "en contra"], //selectOption
+            tarjeta:["amarilla", "roja"], //selectOption
             minuto:"",
             cargando:true,
-            inputSentido: "",
+            inputTipo: "",
             inputJugador: "",
             inputMinuto: ""
         }
@@ -26,19 +27,19 @@ class EditarGolesPartido extends React.Component{
         .catch(e=> console.log(e))
     }
 
-    agregarGol() {
-        let gol={
+    agregarFalta() {
+        let falta={
             jugador: this.state.inputJugador,
             minuto: this.state.inputMinuto,
-            sentido: this.state.inputSentido
+            tipo: this.state.inputTipo
         }
-        fetch("http://localhost:8080/addGol?idJugador=" + this.state.inputJugador + "&idPartido=" + this.state.idPartido,{
-            method:"POST", mode: 'cors', body: JSON.stringify(gol), headers: {'Content-Type': 'application/json'}})
+        fetch("http://localhost:8080/addFalta?idJugador=" + this.state.inputJugador + "&idPartido=" + this.state.idPartido + "&idCampeonato=" + this.state.idCampeonato,{
+            method:"POST", mode: 'cors', body: JSON.stringify(falta), headers: {'Content-Type': 'application/json'}})
             .catch(e =>console.log(e));
     }
 
-    onChangeSetSentido(e){
-        this.setState({inputSentido: e.target.value})
+    onChangeSetTipo(e){
+        this.setState({inputTipo: e.target.value})
     }
     onChangeSetJugador(e){
         this.setState({inputJugador: e.target.value})
@@ -71,16 +72,16 @@ class EditarGolesPartido extends React.Component{
                             </select>
                         </h2>
                         <h2>Minuto: <input type= "number" min="0" max="130" placeholder="0" onChange={this.onChangeSetMinuto.bind(this)}/> </h2>
-                        <h2>Sentido: 
-                            <select id="sentido" onChange={this.onChangeSetSentido.bind(this)}>
-                                <option >{this.state.sentido[0]}</option>
-                                <option>{this.state.sentido[1]}</option>
+                        <h2>Tarjeta: 
+                            <select id="tarjeta" onChange={this.onChangeSetTipo.bind(this)}>
+                                <option >{this.state.tarjeta[0]}</option>
+                                <option>{this.state.tarjeta[1]}</option>
                             </select>
                         </h2>
 
                         <br/>
                         <h2>
-                            <button onClick={this.agregarGol.bind(this)}>Confirmar</button>
+                            <button onClick={this.agregarFalta.bind(this)}>Confirmar</button>
                         </h2>
                     </body>
                 </div>  
@@ -88,4 +89,4 @@ class EditarGolesPartido extends React.Component{
         }
     }
 }
-export default EditarGolesPartido;
+export default EditarFaltasPartido;

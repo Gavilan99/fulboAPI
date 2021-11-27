@@ -173,13 +173,14 @@ class App extends React.Component {
                 render={(props) => (
                   <EditarGolesPartido {...props} user={this.state.user} />
                 )}
-              /><Route
-              exact
-              path="/goles/:jugadoresPartido"
-              render={(props) => (
-                <EditarGolesPartido {...props} user={this.state.user} />
-              )}
-            />
+              />
+              <Route
+                exact
+                path="/faltas/:id/:campeonato"
+                render={(props) => (
+                  <EditarGolesPartido {...props} user={this.state.user} />
+                )}
+              />
             </Switch>
           </div>
 
