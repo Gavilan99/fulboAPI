@@ -8,6 +8,7 @@ import org.hibernate.Session;
 import exceptions.MiembroException;
 import hibernate.HibernateUtil;
 import modelo.Miembro;
+import view.JugadorView;
 
 public class MiembroDAO {
 
@@ -57,6 +58,21 @@ private static MiembroDAO instancia;
 		else
 			throw new MiembroException("No existe un miembro con id = " + id);
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<JugadorView> ObtenerJugadoresPartido(Integer idPartido){
+        List<Miembro> resultado = new ArrayList<Miembro>();
+        Session s = HibernateUtil.getSessionFactory().openSession();
+        s.beginTransaction();
+        resultado = (List<Miembro>) s.createQuery("from Miembro where idPartido = " + idPartido).list(); 
+        s.getTransaction().commit();
+        s.close();
+        List<JugadorView> jugadores = new ArrayList<JugadorView>();
+        for(Miembro m : resultado) {
+            jugadores.add(m.getJugador().toView());
+        }
+        return jugadores;
+    }
 	
 	@SuppressWarnings("unchecked")
 	public List<Miembro> ObtenerMiembros(){

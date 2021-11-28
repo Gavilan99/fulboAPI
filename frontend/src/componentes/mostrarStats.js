@@ -26,6 +26,16 @@ class MostrarStats extends React.Component {
         .catch(e => console.log(e))
     }
 
+    terminarPartido() {
+        fetch("http://localhost:8080/terminarPartido?idPartido=" + this.state.idPartido, {method:"PUT", mode: 'cors', headers: {'Content-Type': 'application/json'}})
+        .then(() => {
+            alert("Partido terminado")
+            let boton = document.getElementById("terminarPartido")
+            boton.style.display = "none"
+        })
+        .catch(e => console.log(e))
+    }
+
     componentDidMount() {
         fetch("http://localhost:8080/getPartido?idPartido=" + parseInt(this.state.idPartido))
         .then((response) => response.json())
@@ -148,6 +158,11 @@ class MostrarStats extends React.Component {
                     {this.state.user.rol === "Representante" ? (
                         <div id="botonConvalidar" onClick={this.convalidar.bind(this)}>
                             <h4>CONVALIDAR</h4>
+                        </div>
+                    ) : (<div></div>)}
+                    {(this.state.user.rol === "Administrador" && this.state.partido.terminado === 'N') ? (
+                        <div id="terminarPartido" onClick={this.terminarPartido.bind(this)}>
+                            <h4>TERMINAR PARTIDO</h4>
                         </div>
                     ) : (<div></div>)}
                     <div class = "botonVolver">

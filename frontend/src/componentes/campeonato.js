@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../estilos/estiloPagina.css";
 import tabla from "./tabla";
 import mostrarPartido from "./mostrarPartido";
+import mostrarPartidoRep from "./mostrarPartidoRep";
 
 
 class Campeonato extends React.Component {
@@ -16,6 +17,7 @@ class Campeonato extends React.Component {
       partidos: [],
       cantFechas: [],
       fechaActual: 1,
+      representante: null,
       cargando: true,
     };
   }
@@ -35,6 +37,15 @@ class Campeonato extends React.Component {
       .then((camp) => {
         console.log(camp);
         this.setState({ campeonato: camp });
+        if (this.state.user.rol === "Representante") {
+          fetch("http://localhost:8080/getRepresentante?idRepresentante=" + this.state.user.id)
+          .then(res => res.json())
+          .then(rep => {
+            this.setState({representante: rep})
+            console.log(rep)
+          })
+          .catch(e => console.log(e))
+        }
         if (this.state.campeonato.tieneZonas === "s") {
           fetch(
             "http://localhost:8080/getTablaPorZonas?idCampeonato=" +
@@ -111,75 +122,137 @@ class Campeonato extends React.Component {
         </div>
       );
     } else if (this.state.campeonato.tieneZonas === "n") {
-      return (
-        <div>
-          <div class="titulo">{this.state.campeonato.descripcion}</div>
-          {this.state.user.rol === "Administrador" ? (
-            <div id="estado">{this.state.campeonato.estado} <button onClick={() => {this.cambiarEstado()}}>Editar Campeonato</button></div>
-          ) : (<div></div>)}
-          <div class="tablas">
-            {tabla(this.state.campeonato, this.state.tabla, 0)}
-          </div>
-          <div class="fixture">
-            <div class="fechaSelectores">
-              Fecha: 
-              <select onChange={this.onChangeBuscarFecha.bind(this)}>
-                 {this.state.cantFechas.map(fecha => {
-                    return (
-                      <option value={fecha}> {fecha} </option>
-                    )
-                  })}
-                </select>
+      if (this.state.user.rol === "Representante") {
+        return(
+          <div>
+            <div class="titulo">{this.state.campeonato.descripcion}</div>
+            <div class="tablas">
+              {tabla(this.state.campeonato, this.state.tabla, 0)}
             </div>
-            <table class="tablafixture">
-                <tbody>
-                  <tr class="diafecha">{this.state.partidos.filter((partido) => partido.nroFecha === this.state.fechaActual).at(0).fechaPartido}</tr>
-                  {this.state.partidos
-                  .filter((partido) => partido.nroFecha === this.state.fechaActual)
-                  .map((part, index) => 
-                    mostrarPartido(part, index)
-                  )}
-                </tbody>
-            </table>
+            <div class="fixture">
+              <div class="fechaSelectores">
+                Fecha: 
+                <select onChange={this.onChangeBuscarFecha.bind(this)}>
+                  {this.state.cantFechas.map(fecha => {
+                      return (
+                        <option value={fecha}> {fecha} </option>
+                      )
+                    })}
+                  </select>
+              </div>
+              <table class="tablafixture">
+                  <tbody>
+                    <tr class="diafecha">{this.state.partidos.filter((partido) => partido.nroFecha === this.state.fechaActual).at(0).fechaPartido}</tr>
+                    {this.state.partidos
+                    .filter((partido) => partido.nroFecha === this.state.fechaActual)
+                    .map((part, index) => mostrarPartidoRep(part, index, this.state.representante))}
+                  </tbody>
+              </table>
+            </div>
           </div>
-        </div> 
-      );
+        )
+      }
+      else {
+        return (
+          <div>
+            <div class="titulo">{this.state.campeonato.descripcion}</div>
+            {this.state.user.rol === "Administrador" ? (
+              <div id="estado">{this.state.campeonato.estado} <button onClick={() => {this.cambiarEstado()}}>Editar Campeonato</button></div>
+            ) : (<div></div>)}
+            <div class="tablas">
+              {tabla(this.state.campeonato, this.state.tabla, 0)}
+            </div>
+            <div class="fixture">
+              <div class="fechaSelectores">
+                Fecha: 
+                <select onChange={this.onChangeBuscarFecha.bind(this)}>
+                  {this.state.cantFechas.map(fecha => {
+                      return (
+                        <option value={fecha}> {fecha} </option>
+                      )
+                    })}
+                  </select>
+              </div>
+              <table class="tablafixture">
+                  <tbody>
+                    <tr class="diafecha">{this.state.partidos.filter((partido) => partido.nroFecha === this.state.fechaActual).at(0).fechaPartido}</tr>
+                    {this.state.partidos
+                    .filter((partido) => partido.nroFecha === this.state.fechaActual)
+                    .map((part, index) => mostrarPartido(part, index, this.state.user))}
+                  </tbody>
+              </table>
+            </div>
+          </div> 
+        );
+      }
     } else {
-      return (
-        <div>
-          <div class="titulo">{this.state.campeonato.descripcion}</div>
-          {this.state.user.rol === "Administrador" ? (
-            <div id="estado">{this.state.campeonato.estado} <button onClick={() => {this.cambiarEstado()}}>Editar Campeonato</button></div>
-          ) : (<div></div>)}
-          <div class="tablas">
-            {this.state.tabla.map((zona, index) =>
-              tabla(this.state.campeonato, zona, index + 1)
-            )}
-          </div>
-          <div class="fixture">
-            <div class="fechaSelectores">
-              Fecha: 
-              <select onChange={this.onChangeBuscarFecha.bind(this)}>
-                 {this.state.cantFechas.map(fecha => {
-                    return (
-                      <option value={fecha}> {fecha} </option>
-                    )
-                  })}
-                </select>
+      if (this.state.user.rol === "Representante") {
+        return (
+          <div>
+            <div class="titulo">{this.state.campeonato.descripcion}</div>
+            <div class="tablas">
+              {this.state.tabla.map((zona, index) =>
+                tabla(this.state.campeonato, zona, index + 1)
+              )}
             </div>
-            <table class="tablafixture">
-                <tbody>
-                  <tr class="diafecha">{this.state.partidos.filter((partido) => partido.nroFecha === this.state.fechaActual).at(0).fechaPartido}</tr>
-                  {this.state.partidos
-                  .filter((partido) => partido.nroFecha === this.state.fechaActual)
-                  .map((part, index) => 
-                    mostrarPartido(part, index)
-                  )}
-                </tbody>
-            </table>
+            <div class="fixture">
+              <div class="fechaSelectores">
+                Fecha: 
+                <select onChange={this.onChangeBuscarFecha.bind(this)}>
+                  {this.state.cantFechas.map(fecha => {
+                      return (
+                        <option value={fecha}> {fecha} </option>
+                      )
+                    })}
+                  </select>
+              </div>
+              <table class="tablafixture">
+                  <tbody>
+                    <tr class="diafecha">{this.state.partidos.filter((partido) => partido.nroFecha === this.state.fechaActual).at(0).fechaPartido}</tr>
+                    {this.state.partidos
+                    .filter((partido) => partido.nroFecha === this.state.fechaActual)
+                    .map((part, index) => mostrarPartidoRep(part, index, this.state.representante))}
+                  </tbody>
+              </table>
+            </div>
           </div>
-        </div>
-      );
+        )
+      }
+      else {
+        return (
+          <div>
+            <div class="titulo">{this.state.campeonato.descripcion}</div>
+            {this.state.user.rol === "Administrador" ? (
+              <div id="estado">{this.state.campeonato.estado} <button onClick={() => {this.cambiarEstado()}}>Editar Campeonato</button></div>
+            ) : (<div></div>)}
+            <div class="tablas">
+              {this.state.tabla.map((zona, index) =>
+                tabla(this.state.campeonato, zona, index + 1)
+              )}
+            </div>
+            <div class="fixture">
+              <div class="fechaSelectores">
+                Fecha: 
+                <select onChange={this.onChangeBuscarFecha.bind(this)}>
+                  {this.state.cantFechas.map(fecha => {
+                      return (
+                        <option value={fecha}> {fecha} </option>
+                      )
+                    })}
+                  </select>
+              </div>
+              <table class="tablafixture">
+                  <tbody>
+                    <tr class="diafecha">{this.state.partidos.filter((partido) => partido.nroFecha === this.state.fechaActual).at(0).fechaPartido}</tr>
+                    {this.state.partidos
+                    .filter((partido) => partido.nroFecha === this.state.fechaActual)
+                    .map((part, index) => mostrarPartido(part, index, this.state.user))}
+                  </tbody>
+              </table>
+            </div>
+          </div>
+        );
+      }
     }
   }
 }

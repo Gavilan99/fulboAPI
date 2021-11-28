@@ -4,18 +4,18 @@ import "../estilos/estiloPagina.css";
 function filaTablaJugadores(fila) {
       return (
         <tr>
-          <td>{fila[3]}</td>                         
-          <td>{fila[4]}</td>             
-          <td>{fila[1]}</td>
-          <td>{fila[2]}</td>
-          <td>{fila[4]}</td>
-          <td>{fila[6]}</td>
-          <td>{fila[8]}</td>
-          <td>{fila[9]}</td>
-          <td>{fila[10]}</td>
-          <td>{fila[11]}</td>
+          <td>{fila.idJugador}</td>                         
+          <td>{fila.nombre}</td>             
+          <td>{fila.tipoDocumento}</td>
+          <td>{fila.numeroDocumento}</td>
+          <td>{fila.fechaNacimiento}</td>
+          <td>{fila.categoria}</td>
+          <td>{fila.habilitado}</td>
+          <td>{fila.direccion}</td>
+          <td>{fila.mail}</td>
+          <td>{fila.telefono}</td>
         </tr>
       );
     }
 
-export default filaTablaJugadores;
+export default filaTablaJugadores

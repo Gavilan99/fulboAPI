@@ -549,6 +549,27 @@ public class Controlador {
 		return res;
 	}
 	
+	public List<JugadorView> obtenerJugadoresPartido(Integer idPartido){
+        return MiembroDAO.getInstancia().ObtenerJugadoresPartido(idPartido);
+    }
+	
+	public List<JugadorView> obtenerJugadoresClubNoEnPartido(Integer idPartido, Integer idClub) throws ClubException{
+        List<JugadorView> jugadoresPartido = this.obtenerJugadoresPartido(idPartido);
+        List<JugadorView> jugadoresClub = this.ObtenerJugadoresDelClub(idClub);
+        List<JugadorView> res = new ArrayList<JugadorView>();
+        for(JugadorView jc : jugadoresClub) {
+            for(JugadorView jp : jugadoresPartido) {
+                if(jc.getIdJugador().intValue() == jp.getIdJugador().intValue()) {
+                    res.add(jc);
+                }
+            }
+        }
+        for (JugadorView jj : res) {
+            jugadoresClub.remove(jj);
+        }
+        return jugadoresClub;
+    }
+	
 	public List<MiembroView> ObtenerVisitantesPartido(int idPartido) throws PartidoException{
 		List<MiembroView> res = new ArrayList<MiembroView>();
 		List<Miembro> visitantes = PartidoDAO.getInstancia().ObtenerPartidoPorId(idPartido).getJugadoresVisitantes();

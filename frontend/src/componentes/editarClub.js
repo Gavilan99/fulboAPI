@@ -1,121 +1,106 @@
 import React, {useState, useEffect} from "react"
 import filaTablaJugadores from "./filaTablaJugadores"
 
-class editarClub extends React.Component{
+// .then(() => this.setState({cargando: false}))
+
+class EditarClub extends React.Component{
     constructor(props){
         super(props)
         this.state = {
-            club: props.club,
-            editingName: false,
+            club: null,
+            id: props.match.params.id,
             editingAdress: false,
             cargando: true,
-            tabla: []
+            tabla: [],
+            nuevaDireccion: ""
         }
-        this.nuevoNombre="";
-        this.nuevaDireccion="";
     }
 
     cambiarDatos() {
-        if (this.nuevoNombre != ""){
-            this.setState({club: {nombre: this.nuevoNombre}})
-            this.setState({editingName: false})
-        }
-        if(this.nuevaDireccion != "") {
-            this.setState({club: {direccion: this.nuevaDireccion}})
-            this.setState({editingAdress: false})
-        }
-        fetch("http://localhost:8080/updateClub",{method:"PUT", body: JSON.stringify(this.state.club)})
+        let clubDummy = this.state.club
+        console.log(this.state.club)
+        this.setState({editingAdress: false})
+        clubDummy.direccion = this.state.nuevaDireccion
+        console.log(clubDummy);
+        fetch("http://localhost:8080/updateClub", {method: "PUT", mode: 'cors', body: JSON.stringify(clubDummy), headers: {'Content-Type': 'application/json'}})
+        .then(() => this.setState({club: clubDummy}))
+        .catch(e => console.log(e))
     }
 
     componentDidMount(){
-        fetch("http://localhost:8080/getJugadoresClub?idClub=" + this.state.club.idClub).then(
-            response =>{response.json()}
+        fetch("http://localhost:8080/getRepresentante?idRepresentante=" + this.state.id)
+        .then(response => response.json())
+        .then(data => this.setState({club: data.club}))
+        .then(() => 
+        {fetch("http://localhost:8080/getJugadoresClub?idClub=" + this.state.club.idClub).then(
+            response2 =>response2.json()
         ).then(
-            miTabla =>{this.setState({tabla: miTabla})}
-        ).catch(
-            e => {console.log(e)})
-        this.setState({cargando: false})
+            miTabla =>this.setState({tabla: miTabla, cargando: false, nuevaDireccion: this.state.club.direccion})
+        )
+        .catch(
+            e => {console.log(e)})})
+        .catch(
+            er=> {console.log(er)}
+        )
     }
+
+    onChangeSetDireccion(e){
+        this.setState({nuevaDireccion: e.target.value})
+    }
+
+
     //Falta el link de añadir jugador al boton de añadir jugador
     render(){
         if(this.state.cargando){return(
             <div>
                 <h1>
-                    PRUEBO BRANCH
+                    CARGANDO
                 </h1>
             </div>
         )}else{
             return(
                 <div>
-                    <head>
-                        <h1>
-                            Datos club: 
-                        </h1>
-                    </head>
                     <body>
-                        {this.state.editingName ?(
+                        <h1>
+                            DATOS CLUB: {this.state.club.nombre}    
+                        </h1>
+                        {!this.state.editingAdress ?(
                         <span>
                             <h2>
-                                {this.state.club.nombre}       <button onClick={() => {this.setState({ editingName: true });}}>EDITAR</button>
+                                DIRECCION: {this.state.club.direccion}    <button onClick={() => {this.setState({ editingAdress: true });}}>EDITAR</button>
                             </h2>
                         </span>
                         ):(
                             <div>
-                                <input
-                                    type="text"
-                                    defaultValue = {this.state.club.nombre}
-                                    ref={node =>{
-                                        this.nuevoNombre = node;
-                                    }}
-                                />
-                                <button onClick = {() => this.cambiarDatos}> OK </button>
-                            </div>
-
-                        )}
-                        {this.state.editingAdress ?(
-                        <span>
-                            <h2>
-                                {this.state.club.direccion}    <button onClick={() => {this.setState({ editingAdress: true });}}>EDITAR</button>
-                            </h2>
-                        </span>
-                        ):(
-                            <div>
-                                <input
-                                    type="text"
-                                    defaultValue = {this.state.club.direccion}
-                                    ref={node =>{
-                                        this.nuevaDireccion = node;
-                                    }}
-                                />
-                                <button onClick = {() => this.cambiarDatos}> OK </button>
+                                <h2>
+                                    DIRECCION: <input type= "text" value={this.state.nuevaDireccion} placeholder = "Direccion" onChange={this.onChangeSetDireccion.bind(this)}/> 
+                                    <button onClick = {this.cambiarDatos.bind(this)}> OK </button>
+                                </h2>
                             </div>
                         )}
-                        <button onClick="">AÑADIR JUGADOR</button> 
 
                         <div id="tablaJugadores">
                             <div class="nombreClub">Tabla {this.state.club.nombre}</div>
                             <br />
                             <table id="jugadores">
-                            <thead>
-                                {/*Head fijo*/}
-                                <tr class="cabecera">
-                                <th>#</th>
-                                    <th>Jugadores</th>
-                                    <th class="nombre">Nombre</th>
-                                    <th class="apellido">Apellido</th>
-                                    <th class="tipoDni">Tipo DNI</th>
-                                    <th class="dni">DNI</th>
-                                    <th class="fechaNac">Fecha Nacimiento</th>
-                                    <th class="cat">Categoria</th>
-                                    <th class="estado">Hablitado</th>
-                                    <th class="direccion">Direccion</th>
-                                    <th class="mail">E-Mail</th>
-                                    <th class="tel">Telefono</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {this.state.tabla.map((item) => filaTablaJugadores(item))}
-                            </tbody>
+                                <thead>
+                                    {/*Head fijo*/}
+                                    <tr class="cabecera">
+                                        <th>#</th>
+                                            <th>Jugadores</th>
+                                            <th class="tipoDni">Tipo DNI</th>
+                                            <th class="dni">DNI</th>
+                                            <th class="fechaNac">Fecha Nacimiento</th>
+                                            <th class="cat">Categoria</th>
+                                            <th class="estado">Hablitado</th>
+                                            <th class="direccion">Direccion</th>
+                                            <th class="mail">E-Mail</th>
+                                            <th class="tel">Telefono</th>
+                                        </tr>
+                                </thead>
+                                <tbody>
+                                    {this.state.tabla.map((item) => filaTablaJugadores(item))}
+                                </tbody>
                             </table>
                         </div>
                     </body>
@@ -125,4 +110,4 @@ class editarClub extends React.Component{
     }
 }
 
-export default editarClub;
+export default EditarClub;

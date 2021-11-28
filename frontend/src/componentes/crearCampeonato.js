@@ -73,21 +73,21 @@ class CrearCampeonato extends React.Component {
                     />
                     <p>Fecha de Inicio </p>
                     <input
-                        type="text"
+                        type="date"
                         placeholder="Fecha inicio"
                         value={this.state.fechaIni}
                         onChange={this.onChangeSaveFechaIni.bind(this)}
                     />
                     <p>Fecha de Finalizacion </p>
                     <input
-                        type="text"
+                        type="date"
                         placeholder="Fecha fin"
                         value={this.state.fechaFin}
                         onChange={this.onChangeSaveFechaFin.bind(this)}
                     />
                     <p>Categoria </p>
                     <input
-                        type="text"
+                        type="number"
                         placeholder="Categoria"
                         value={this.state.categoria}
                         onChange={this.onChangeSaveCategoria.bind(this)}

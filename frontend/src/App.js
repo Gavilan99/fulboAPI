@@ -5,9 +5,12 @@ import Campeonato from "./componentes/campeonato";
 import Home from "./componentes/home.js"
 import MostrarStats from "./componentes/mostrarStats";
 import MisDatos from "./componentes/misDatos.js";
+import EditarGolesPartido from "./componentes/editarGolesPartido";
+import EditarFaltasPartido from "./componentes/editarFaltasPartido";
+import EditarClub from "./componentes/editarClub";
+import AgregarJugadorPartido from "./componentes/agregarJugadorPartido";
 import CrearCampeonato from "./componentes/crearCampeonato"
 import CrearCampeonatoClubes from "./componentes/crearCampeonatoClubes";
-import editarClub from "./componentes/editarClub";
 
 class App extends React.Component {
 
@@ -87,14 +90,13 @@ class App extends React.Component {
                 <input
                   type="text"
                   name="usuario"
-                  
                   onChange={this.handleInputChange}
                 ></input>
               </div>
               <div id="contraseña">
                 <label>Contraseña: </label>
                 <input
-                  type="text"
+                  type="password"
                   name="contraseña"
                   onChange={this.handleInputChange}
                 ></input>
@@ -175,6 +177,20 @@ class App extends React.Component {
                     <MostrarStats {...props} user={this.state.user} />
                   )}
                 />
+                <Route
+                exact
+                path="/goles/:id"
+                render={(props) => (
+                  <EditarGolesPartido {...props} user={this.state.user} />
+                )}
+              />
+              <Route
+                exact
+                path="/faltas/:id"
+                render={(props) => (
+                  <EditarFaltasPartido {...props} user={this.state.user} />
+                )}
+              />
               </Switch>
           </div>
         </div>
@@ -237,7 +253,7 @@ class App extends React.Component {
                 exact
                 path="/miClub/:id"
                 render={(props) => (
-                  <editarClub {...props} user={this.state.user} />
+                  <EditarClub {...props} user={this.state.user} />
                 )}
               /> 
               <Route
@@ -254,6 +270,14 @@ class App extends React.Component {
                   <MostrarStats {...props} user={this.state.user} />
                 )}
               />
+              <Route
+                exact
+                path="/cargaMiembros/:partidoClub"
+                render={(props) => 
+                    (
+                      <AgregarJugadorPartido {...props} user={this.state.user} />
+                    )}
+              /> 
             </Switch>
           </div>
         </div>
@@ -276,11 +300,6 @@ class App extends React.Component {
               <li id="nav-item">
                 <Link to={"/misDatos/" + this.state.user.idRol} className="nav-link">
                   Mis Datos
-                </Link>
-              </li>
-              <li id="nav-item">
-                <Link to={"/miClub/" + this.state.user.idRol} className="nav-link">
-                  Mi Club
                 </Link>
               </li>
 

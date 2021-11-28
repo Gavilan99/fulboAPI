@@ -146,14 +146,14 @@ h2 {
 
 .descripcionLocal {
     position: absolute;
-    left: 660px;
+    left: 250px;
     top: 250px;
 }
 
 .descripcionVisitante {
     position: absolute;
-    left: 650px;
-    top: 550px;
+    left: 1150px;
+    top: 250px;
 }
 
 .datoPartido {
@@ -218,6 +218,19 @@ h2 {
     cursor: pointer;
     border: #000 solid 1.5px;
     background-color: #7AF329;
+    position: absolute;
+    left: 640px;
+    top: 850px;
+    width: 200px;
+    text-align: center;
+    margin: auto;
+    margin-bottom: 20px;
+}
+
+#terminarPartido {
+    cursor: pointer;
+    border: #000 solid 1.5px;
+    background-color: #f51717;
     position: absolute;
     left: 640px;
     top: 850px;

@@ -1,7 +1,6 @@
 import {Link} from "react-router-dom";
 
-function mostrarPartido(partido, index, user) {
-  const {id, rol} = user.idRol.split("-")
+function mostrarPartidoRep(partido, index, representante) {
   if (index % 2 === 0) {
     return (
       <tr class="fpar">
@@ -16,18 +15,11 @@ function mostrarPartido(partido, index, user) {
                 <i class="fas fa-info-circle"></i>
             </Link>
         </td>
-        {/*ADMINISTRADOR*/}
-        {(user.rol === "Administrador" && partido.terminado === 'N') ? (
-          <td class="accesogoles">
-            <Link to={"/goles/" + partido.idPartido}>
-              <i class="fa-regular fa-futbol"></i>
-            </Link>
-          </td>
-        ) : (<td></td>)}
-        {(user.rol === "Administrador" && partido.terminado === 'N') ? (
-          <td class="accesoFaltas">
-            <Link to={"/faltas/" + partido.idPartido + "-" + partido.campeonato}>
-              <i class="far fa-hand-paper"></i>
+        {/*REPRESENTANTE DE ALGUNO DE LOS EQUIPOS, SI EL PARTIDO NO ESTA TERMINADO*/}
+        {partido.terminado === 'N' && (representante.club.idClub === partido.clubLocal.idClub || representante.club.idClub === partido.clubVisitante.idClub) ? (
+          <td class="accesoCargaMiembro">
+            <Link to={"/cargaMiembros/" + partido.idPartido}>
+              <i class="fas fa-user-plus"></i>
             </Link>
           </td>
         ) : (<td></td>)}
@@ -47,18 +39,11 @@ function mostrarPartido(partido, index, user) {
                 <i class="fas fa-info-circle"></i>
             </Link>
       </td>
-      {/*ADMINISTRADOR*/}
-      {(user.rol === "Administrador" && partido.terminado === 'N') ? (
-          <td class="accesogoles">
-            <Link to={"/goles/" + partido.idPartido}>
-              <i class="fa-regular fa-futbol"></i>
-            </Link>
-          </td>
-        ) : (<td></td>)}
-        {(user.rol === "Administrador" && partido.terminado === 'N') ? (
-          <td class="accesoFaltas">
-            <Link to={"/faltas/" + partido.idPartido + "-" + partido.campeonato}>
-              <i class="far fa-hand-paper"></i>
+        {/*REPRESENTANTE DE ALGUNO DE LOS EQUIPOS, SI EL PARTIDO NO ESTA TERMINADO*/}
+        {partido.terminado === 'N' && (representante.club.idClub === partido.clubLocal.idClub || representante.club.idClub === partido.clubVisitante.idClub) ? (
+          <td class="accesoCargaMiembro">
+            <Link to={"/cargaMiembros/" + partido.idPartido}>
+              <i class="fas fa-user-plus"></i>
             </Link>
           </td>
         ) : (<td></td>)}
@@ -67,4 +52,4 @@ function mostrarPartido(partido, index, user) {
   }
 }
 
-export default mostrarPartido;
+export default mostrarPartidoRep;
